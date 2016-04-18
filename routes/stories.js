@@ -15,7 +15,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/top', function(req, res, next) {
-  res.render('top');
+  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').then(function(topStories) {
+    res.render('stories/top', {
+      topStories: topStories
+    });
+  });
 });
 
 router.get('/latest', function(req, res, next) {
