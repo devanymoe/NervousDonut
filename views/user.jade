@@ -1,0 +1,7 @@
+extends ./layout
+
+block content
+  div.container
+    each story in userStories
+      div.row
+        h1= story.title
