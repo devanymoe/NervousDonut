@@ -4,4 +4,18 @@ block content
   img(src= image1.urls.full).image
   img(src= image2.urls.full).image
   img(src= image3.urls.full).image
+  
+  form(action='stories/new' id='newStory' method='post')
+    div
+      label Title
+      br
+      input(type='text' name='title' value=title)
+    div
+      label Your Story
+      br
+      textarea(type='text' rows='5' name='body' value=body)
+    div
+      input(type='submit' name="save" value="save")
+      input(type='submit' name="publish" value="publish")
+    
     
