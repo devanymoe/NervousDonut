@@ -1,4 +1,3 @@
-
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('stories', function (table) {
     table.increments();
@@ -10,8 +9,9 @@ exports.up = function(knex, Promise) {
     table.string('image_1');
     table.string('image_2');
     table.string('image_3');
-    table.timestamp('datetime');
     table.text('text');
+    table.dateTime('created_at');
+    table.dateTime('updated_at');
     table.integer('likes');
     table.boolean('published');
   });
