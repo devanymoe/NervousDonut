@@ -9,6 +9,8 @@ var knex = require ('./db/knex');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var auth = require('./routes/auth');
+var stories = require('./routes/stories');
 
 var app = express();
 
@@ -29,7 +31,7 @@ knex.migrate.latest();
 
 app.use('/', routes);
 app.use('/', auth);
-app.use('/', user);
+app.use('/', users);
 app.use('/stories', stories);
 
 // catch 404 and forward to error handler
