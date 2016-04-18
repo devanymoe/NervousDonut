@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
+var rp = require('request-promise');
 
 function Stories() {
   return knex('stories');
@@ -13,6 +14,38 @@ function Users() {
 router.get('/', function(req, res, next) {
   res.render('index');
 });
+
+router.get('/new', function(req, res, next) {
+  var image1;
+  var image2;
+  var image3;
+  rp({uri: 'https://api.unsplash.com/photos/random?client_id=' + process.env.app_id})
+    .then(function(data) {
+      image1 = JSON.parse(data);
+      rp({uri: 'https://api.unsplash.com/photos/random?client_id=' + process.env.app_id})
+        .then(function(data2) {
+          image2 = JSON.parse(data2);
+          rp({uri: 'https://api.unsplash.com/photos/random?client_id=' + process.env.app_id})
+            .then(function(data3) {
+              image3 = JSON.parse(data3);
+              res.render('stories/new', {
+                image1: image1,
+                image2: image2,
+                image3: image3
+              })
+            })
+            .catch(function(err) {
+              console.log(err);
+            });
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+})
 
 router.get('/top', function(req, res, next) {
   Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').then(function(topStories) {
