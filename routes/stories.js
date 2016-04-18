@@ -23,7 +23,11 @@ router.get('/top', function(req, res, next) {
 });
 
 router.get('/latest', function(req, res, next) {
-  res.render('latest');
+  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(latestStories) {
+    res.render('stories/latest', {
+      latestStories: latestStories
+    });
+  });
 });
 
 router.get('/new', function(req, res, next) {
