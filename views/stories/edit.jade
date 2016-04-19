@@ -17,10 +17,11 @@ block content
       br
       textarea(type='text' rows='5' name='text')= story.text
     div
-      input(type='text' hidden value=story.created_at name='created_at')
-      input(hidden type='text' name='image_1' value=story.image_1) 
-      input(hidden type='text' name='image_2' value=story.image_2)
-      input(hidden type='text' name='image_3' value=story.image_3)    
+      input(hidden type='text' name='image_1' value= story.image_1) 
+      input(hidden type='text' name='image_2' value= story.image_2)
+      input(hidden type='text' name='image_3' value= story.image_3)    
+      input(hidden type='integer' name='likes' value= story.likes)
+      input(hidden type='number' name='user_id' value= story.user_id)
     div
       button(type='submit' formaction='/stories/' + story.id + '/edit/save?_method=put' name="save" value="save") Save
       if story.published === false 

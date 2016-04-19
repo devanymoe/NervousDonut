@@ -112,6 +112,29 @@ router.post('/new/publish', function(req, res, next) {
 router.put('/:id/edit/save', function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
+
+  Stories().pluck('created_at').where('id', req.params.id).then(function(createdAt) {
+    console.log(createdAt);
+    Stories().where({id: req.params.id}).update({
+      title: req.body.title,
+      created_at: createdAt[0],
+      updated_at: isoDate,
+      image_1: req.body.image_1,
+      image_2: req.body.image_2,
+      image_3: req.body.image_3,
+      text: req.body.text,
+      user_id: req.body.user_id,
+      likes: req.body.likes,
+      published: false
+    }).then(function(){
+      res.redirect('/stories');
+    });
+  });
+});
+
+router.put('/:id/edit/publish', function(req, res, next) {
+  var d = new Date();
+  var isoDate = d.toISOString();
   Stories().where({id: req.params.id}).update({
     title: req.body.title,
     created_at: req.body.created_at,
@@ -120,12 +143,12 @@ router.put('/:id/edit/save', function(req, res, next) {
     image_2: req.body.image_2,
     image_3: req.body.image_3,
     text: req.body.text,
-    user_id: 1,
-    likes: 0,
-    published: false
+    user_id: req.body.user_id,
+    likes: req.body.likes,
+    published: true
   }).then(function(){
-    res.redirect('/stories')
-  })
+    res.redirect('/stories/' + req.params.id);
+  });
 });
 
 router.get('/:id', function(req, res, next) {
