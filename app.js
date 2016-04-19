@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('cookie-session');
 var knex = require ('./db/knex');
-var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var passport = require('passport');
 
 
@@ -38,9 +38,10 @@ passport.use(new GoogleStrategy({
     passReqToCallback   : true
   },
   function(request, accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return done(err, user);
-    });
+    
+    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    //   return done(err, user);
+    // });
   }
 ));
 
