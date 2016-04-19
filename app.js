@@ -33,15 +33,14 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GoogleStrategy({
     clientID:  process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://nervous-donut.herokuapp.com/auth/google/callback",
+    callbackURL: process.env.HOST + "/auth/google/callback",
     scope: ['email', 'profile'],
     passReqToCallback   : true
   },
   function(request, accessToken, refreshToken, profile, done) {
-    
-    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    //   return done(err, user);
-    // });
+    console.log(profile);
+    done(null, profile);
+
   }
 ));
 
