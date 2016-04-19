@@ -6,6 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('cookie-session');
 var knex = require ('./db/knex');
+var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+var passport = require('passport');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -13,10 +16,32 @@ var auth = require('./routes/auth');
 var stories = require('./routes/stories');
 
 var app = express();
+require('dotenv').load();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+passport.use(new GoogleStrategy({
+    clientID:  process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "https://nervous-donut.herokuapp.com/auth/google/callback",
+    passReqToCallback   : true
+  },
+  function(request, accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, public', 'favicon.ico')));
@@ -33,6 +58,25 @@ app.use('/', routes);
 app.use('/', auth);
 app.use('/', users);
 app.use('/stories', stories);
+
+app.get('/auth/google', passport.authenticate('google'));
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope:
+  	[ 'https://www.googleapis.com/auth/plus.login',
+  	, 'https://www.googleapis.com/auth/plus.profile' ] }
+));
+
+app.get( '/auth/google/callback',
+	passport.authenticate( 'google', {
+		successRedirect: '/auth/google/success',
+		failureRedirect: '/auth/google/failure'
+}));
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
