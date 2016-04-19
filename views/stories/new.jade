@@ -1,9 +1,9 @@
 extends ../layout
 
 block content
-  img(src= image1.urls.full).image
-  img(src= image2.urls.full).image
-  img(src= image3.urls.full).image
+  img(src= image1.urls.regular).image
+  img(src= image2.urls.regular).image
+  img(src= image3.urls.regular).image
   
   form(id='newStory' method='post')
     div
@@ -13,11 +13,11 @@ block content
     div
       label Your Story
       br
-      textarea(type='text' rows='5' name='body' value=body)
+      textarea(type='text' rows='5' name='text' value=body)
     div
-      input(hidden type='text' name='image_1' value=image1.urls.full) 
-      input(hidden type='text' name='image_2' value=image2.urls.full)
-      input(hidden type='text' name='image_3' value=image3.urls.full)
+      input(hidden type='text' name='image_1' value=image1.urls.regular) 
+      input(hidden type='text' name='image_2' value=image2.urls.regular)
+      input(hidden type='text' name='image_3' value=image3.urls.regular)
     div
       button(type='submit' formaction='/stories/new/save' name="save" value="save") Save
       button(type='submit' formaction='/stories/new/publish' name="publish" value="publish") Publish

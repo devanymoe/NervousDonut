@@ -109,6 +109,25 @@ router.post('/new/publish', function(req, res, next) {
   })
 });
 
+router.put('/:id/edit/save', function(req, res, next) {
+  var d = new Date();
+  var isoDate = d.toISOString();
+  Stories().where({id: req.params.id}).update({
+    title: req.body.title,
+    created_at: req.body.created_at,
+    updated_at: isoDate,
+    image_1: req.body.image_1,
+    image_2: req.body.image_2,
+    image_3: req.body.image_3,
+    text: req.body.text,
+    user_id: 1,
+    likes: 0,
+    published: false
+  }).then(function(){
+    res.redirect('/stories')
+  })
+});
+
 router.get('/:id', function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story) {
     Users().first('username').where('id', story.user_id).then(function(user) {
@@ -121,12 +140,11 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.get('/:id/edit', function(req, res, next) {
-  res.render('edit');
+  Stories().first().where('id', req.params.id).then(function(story){
+    res.render('stories/edit', {
+      story: story
+    });
+  })
 });
-
-
-
-
-
 
 module.exports = router;
