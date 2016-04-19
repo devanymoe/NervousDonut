@@ -34,6 +34,7 @@ passport.use(new GoogleStrategy({
     clientID:  process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "https://nervous-donut.herokuapp.com/auth/google/callback",
+    scope: ['email', 'profile'],
     passReqToCallback   : true
   },
   function(request, accessToken, refreshToken, profile, done) {
