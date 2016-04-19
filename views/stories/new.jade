@@ -5,7 +5,7 @@ block content
   img(src= image2.urls.full).image
   img(src= image3.urls.full).image
   
-  form(action='stories/new' id='newStory' method='post')
+  form(id='newStory' method='post')
     div
       label Title
       br
@@ -15,7 +15,13 @@ block content
       br
       textarea(type='text' rows='5' name='body' value=body)
     div
-      input(type='submit' name="save" value="save")
-      input(type='submit' name="publish" value="publish")
+      input(hidden type='text' name='image_1' value=image1.urls.full) 
+      input(hidden type='text' name='image_2' value=image2.urls.full)
+      input(hidden type='text' name='image_3' value=image3.urls.full)
+    div
+      button(type='submit' formaction='stories/new/save' name="save" value="save") Save
+      button(type='submit' formaction='stories/new/publish' name="publish" value="publish") Publish
+      
+
     
     

@@ -82,6 +82,26 @@ router.get('/:id/edit', function(req, res, next) {
   res.render('edit');
 });
 
+router.get('/new/save', function(req, res, next) {
+  res.render('stories');
+});
+
+router.post('/new/save', function(req, res, next) {
+  var d = new Date();
+  var isoDate = d.toISOString();
+  Stories().insert({
+    title: req.body.title,
+    created_at: isoDate,
+    updated_at: isoDate,
+    image_1: req.body.image_1,
+    image_2: req.body.image_2,
+    image_3: req.body.image_3,
+    text: req.body.text,
+    user_id: 1,
+    likes: 0,
+    published: false
+  });
+});
 
 
 module.exports = router;
