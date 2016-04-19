@@ -54,6 +54,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('express-method-override')());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(session({
+  name: 'session',
+  keys: [process.env.SESSION_KEY]
+}));
 
 require('dotenv').load();
 knex.migrate.latest();
