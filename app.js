@@ -100,8 +100,8 @@ app.use(function (req, res, next) {
 
 app.use('/', routes);
 app.use('/', auth);
-app.use('/', users);
 app.use('/stories', stories);
+app.use('/', users);
 
 app.get('/auth/google', passport.authenticate('google'));
 
