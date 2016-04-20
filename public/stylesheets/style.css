@@ -13,3 +13,10 @@ a {
 .image {
   width: 200px;
 }
+
+
+/* FORM STYLES*/
+
+.error {
+  color: red;
+}

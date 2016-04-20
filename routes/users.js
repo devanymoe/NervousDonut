@@ -15,7 +15,6 @@ router.get('/:username', function(req, res, next) {
       res.render('user', {user: user, userStories: stories})
     })
   })
-
 });
 
 

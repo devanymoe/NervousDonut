@@ -29,7 +29,6 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   knex('users').first().where('id', user.id)
     .then(function (user) {
-      console.log('deserialize', user);
       done(null, user);
     })
     .catch(function (err) {
@@ -57,12 +56,10 @@ passport.use(new GoogleStrategy({
           superuser: false,
           googleId: profile.id
         }, '*').then(function(user) {
-          console.log('new user', user);
           done(null, user);
         });
       }
       else {
-        console.log('old user', user);
         done(null, user);
       }
     });
@@ -89,19 +86,14 @@ require('dotenv').load();
 knex.migrate.latest();
 
 app.use(function (req, res, next) {
-  console.log(req.user);
   res.locals.user = req.user
-  // console.log(req.user);
-  // console.log(res.locals.user);
-  // console.log(req.session.user);
-  // console.log(req.session);
   next()
 })
 
 app.use('/', routes);
 app.use('/', auth);
 app.use('/stories', stories);
-app.use('/', users);
+app.use('/users', users);
 
 app.get('/auth/google', passport.authenticate('google'));
 

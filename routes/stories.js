@@ -76,9 +76,15 @@ router.post('/new/save', function(req, res, next) {
   if (errors.length) {
     res.render('stories/new', {
       title: req.body.title,
-      text: req.body.text
-    })
-  } else {
+      text: req.body.text,
+      existingImage_1: req.body.image_1,
+      existingImage_2: req.body.image_2,
+      existingImage_3: req.body.image_3,
+      message: errors
+    });
+    return;
+  }
+  else {
     Stories().insert({
       title: req.body.title,
       created_at: isoDate,
