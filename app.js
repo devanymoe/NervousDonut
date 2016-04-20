@@ -118,7 +118,8 @@ app.get( '/auth/google/callback',
 }));
 
 app.get('/logout', function(req, res){
-  req.logout();
+  req.logOut();
+  req.session = null;
   res.redirect('/');
 });
 

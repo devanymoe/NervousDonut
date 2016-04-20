@@ -16,8 +16,6 @@ router.get('/:username', function(req, res, next) {
     })
   })
 
-
-
 router.get('/allusers', function(req, res, next) {
   Users().select().then(function(data) {
     console.log(data);

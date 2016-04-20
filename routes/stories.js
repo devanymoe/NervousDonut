@@ -12,7 +12,12 @@ function Users() {
 }
 
 router.get('/', function(req, res, next) {
-  res.render('stories/index');
+  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').where('published', true).orderBy('created_at', 'desc').then(function(publishedStories) {
+    res.render('stories/index', {
+      publishedStories: publishedStories
+    });
+  });
+
 });
 
 router.get('/new', function(req, res, next) {
@@ -70,7 +75,7 @@ router.post('/new/save', function(req, res, next) {
     image_2: req.body.image_2,
     image_3: req.body.image_3,
     text: req.body.text,
-    user_id: 1,
+    user_id: req.body.user_id,
     likes: 0,
     published: false
   }).then(function(){
@@ -89,7 +94,7 @@ router.post('/new/publish', function(req, res, next) {
     image_2: req.body.image_2,
     image_3: req.body.image_3,
     text: req.body.text,
-    user_id: 1,
+    user_id: req.body.user_id,
     likes: 0,
     published: true
   }, '*').then(function(newStory){
@@ -111,7 +116,7 @@ router.put('/:id/edit/save', function(req, res, next) {
       image_2: req.body.image_2,
       image_3: req.body.image_3,
       text: req.body.text,
-      user_id: req.body.user_id,
+      user_id: req.body.username,
       likes: req.body.likes,
       published: false
     }).then(function(){
