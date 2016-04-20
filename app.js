@@ -27,7 +27,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(user, done) {
-  knex('users').first().where('id', user)
+  knex('users').first().where('id', user.id)
     .then(function (user) {
       done(null, user);
     })
@@ -55,8 +55,8 @@ passport.use(new GoogleStrategy({
           last_name: profile.name.familyName,
           superuser: false,
           googleId: profile.id
-        }, '*').then(function(newUser) {
-          done(null, newUser);
+        }, '*').then(function(user) {
+          done(null, user);
         });
       }
       else {
