@@ -41,6 +41,8 @@ router.get('/top', function(req, res, next) {
   });
 });
 
+router.get('/top')
+
 router.get('/latest', function(req, res, next) {
   Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(latestStories) {
     res.render('stories/latest', {
