@@ -44,9 +44,6 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
-    console.log(profile);
-
-    // insert into database
     knex('users').first().where('googleId', profile.id).then(function(user) {
       if (!user) {
         var email = profile.emails[0].value;
@@ -89,6 +86,10 @@ knex.migrate.latest();
 
 app.use(function (req, res, next) {
   res.locals.user = req.user
+  console.log(req.user);
+  console.log(res.locals.user);
+  console.log(req.session.user);
+  console.log(req.session);
   next()
 })
 
