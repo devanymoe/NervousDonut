@@ -107,8 +107,8 @@ app.get('/auth/google',
 
 app.get( '/auth/google/callback',
 	passport.authenticate( 'google', {
-		successRedirect: '/auth/google/success',
-		failureRedirect: '/auth/google/failure'
+		successRedirect: '/',
+		failureRedirect: '/error'
 }));
 
 app.get('/logout', function(req, res){
