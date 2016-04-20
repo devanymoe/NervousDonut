@@ -23,11 +23,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser(function(id, done) {
-  knex('users').first().where('id', id)
+passport.deserializeUser(function(user.id, done) {
+  knex('users').first().where('id', user.id)
     .then(function (user) {
       done(null, user);
     })
@@ -86,9 +86,9 @@ knex.migrate.latest();
 
 app.use(function (req, res, next) {
   res.locals.user = req.user
-  console.log(req.user);
-  console.log(res.locals.user);
-  console.log(req.session.user);
+  // console.log(req.user);
+  // console.log(res.locals.user);
+  // console.log(req.session.user);
   console.log(req.session);
   next()
 })
