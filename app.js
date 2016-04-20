@@ -89,7 +89,7 @@ app.use(function (req, res, next) {
   // console.log(req.user);
   // console.log(res.locals.user);
   // console.log(req.session.user);
-  console.log(req.session);
+  // console.log(req.session);
   next()
 })
 
