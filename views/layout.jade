@@ -5,7 +5,31 @@ html
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/lumen/bootstrap.min.css')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    
+    script(type="text/javascript" src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js')
+    script( src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
+  body(class=typeof user === "undefined" ? "" : "loggedIn")
+    div.nav.navbar.navbar-fixed-top
+      div.navContainer  
+        div.navbar-header
+          button.navbar-toggle.collapsed(type='button' data-toggle='collapse' data-target='#navbar-collapse' aria-expanded='false')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='/')
+            span Nervous Donut
+        div.collapse.navbar-collapse(id='navbar-collapse')
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/stories') Stories
+            li
+              a(href='/users') Users
+            if user
+              li.loggedAs= 'Logged in as ' + user.username
+              li
+                a(href='/logout') Logout
+            else
+              li
+                a(href='/login') Login
     block content
       

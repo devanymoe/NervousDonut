@@ -1,3 +1,5 @@
+/* MAIN STYLES */
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -7,11 +9,27 @@ a {
   color: #00B7FF;
 }
 
+.container {
+  margin-top: 60px;
+}
+
 
 /* SHOW PAGE STYLES*/
 
 .image {
-  width: 200px;
+  left: -50%;
+  top: -50%;
+  position: absolute;
+  width: 600px;
+}
+
+.imageContainer {
+  width: 230px;
+  height: 230px;
+  overflow: hidden;
+  position: relative;
+  margin: 12px 18px 12px 0;
+  display: inline-block;
 }
 
 
@@ -19,4 +37,97 @@ a {
 
 .error {
   color: red;
+}
+
+input, textarea {
+  margin-bottom: 20px;
+}
+
+.formContainer textarea:focus, .formContainer input:focus, .formContainer select:focus, .options select:focus, .options input:focus {
+  box-shadow: none;
+  border: 1px solid #4E0000;
+}
+
+.form-button-save {
+  background-color: #AAA;
+  color: #fff;
+  border: none;
+  margin-top: 40px;
+}
+
+.form-button-save:hover {
+  background-color: #CCC;
+}
+
+.form-button-publish {
+  background-color: #4E0000;
+  color: #fff;
+  border: none;
+  margin-top: 40px;
+}
+
+.form-button-publish:hover {
+  background-color: #400000;
+}
+
+
+/* NAV STYLES */
+
+.nav {
+  padding: 0 30px 0 50px;
+  background-color: #4E0000;
+  color: #d3d3d3;
+  margin-bottom: 0;
+}
+
+.navContainer {
+  padding-left: 7%;
+  padding-right: 7%;
+}
+
+.nav a {
+  color: #d3d3d3;
+  margin-top: 6px;
+}
+
+.navbar-right {
+  margin-top: 8px;
+}
+
+.icon-bar {
+  background-color: #d3d3d3;
+  margin-top: 8px;
+}
+
+.navbar ul a {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.navbar ul a:hover {
+  color: #333;
+}
+
+.login a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #d3d3d3;
+}
+
+.login {
+  border: 2px solid #d3d3d3;
+  padding: 4px;
+}
+
+.logo {
+  width: 200px;
+}
+
+.loggedAs {
+  margin-top: 16px;
+  color: #808080;
+  margin-left: 8px;
+  margin-right: 8px;
 }
