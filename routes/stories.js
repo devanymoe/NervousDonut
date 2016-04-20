@@ -195,20 +195,47 @@ router.put('/:id/edit/save', function(req, res, next) {
 router.put('/:id/edit/publish', function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
-  Stories().where({id: req.params.id}).update({
-    title: req.body.title,
-    created_at: req.body.created_at,
-    updated_at: isoDate,
-    image_1: req.body.image_1,
-    image_2: req.body.image_2,
-    image_3: req.body.image_3,
-    text: req.body.text,
-    user_id: req.body.user_id,
-    likes: req.body.likes,
-    published: true
-  }).then(function(){
-    res.redirect('/stories/' + req.params.id);
-  });
+  var errors = [];
+
+  errors.push(validations.titleIsNotBlank(req.body.title));
+  errors.push(validations.storyIsNotBlank(req.body.text));
+
+  for(var i = 0; i < errors.length; i++) {
+    if(errors[i] === '') {
+      errors.splice(i, 1);
+      i--;
+    }
+  }
+
+  if (errors.length) {
+    Stories().first().where('id', req.params.id).then(function(story){
+      res.render('stories/edit', {
+        story: story,
+        title: req.body.title,
+        text: req.body.text,
+        message: errors
+      });
+    })
+    return;
+  }
+  else {
+    Stories().pluck('created_at').where('id', req.params.id).then(function(createdAt) {
+      Stories().where({id: req.params.id}).update({
+        title: req.body.title,
+        created_at: createdAt[0],
+        updated_at: isoDate,
+        image_1: req.body.image_1,
+        image_2: req.body.image_2,
+        image_3: req.body.image_3,
+        text: req.body.text,
+        user_id: req.body.user_id,
+        likes: req.body.likes,
+        published: true
+      }).then(function(){
+        res.redirect('/stories');
+      });
+    });
+  }
 });
 
 router.get('/:id', function(req, res, next) {
