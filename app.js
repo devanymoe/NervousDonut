@@ -39,7 +39,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.HOST + "/auth/google/callback",
+    callbackURL: "http://localhost:3000/auth/google/callback",
     scope: ['email', 'profile'],
     passReqToCallback: true
   },
@@ -49,9 +49,11 @@ passport.use(new GoogleStrategy({
     // insert into database
     knex('users').first().where('googleId', profile.id).then(function(user) {
       if (!user) {
+        var email = profile.emails[0].value;
+        var username = email.split('@')[0];
         knex('users').insert({
           email: profile.emails[0].value,
-          username: profile.displayName,
+          username: username,
           first_name: profile.name.givenName,
           last_name: profile.name.familyName,
           superuser: false,
