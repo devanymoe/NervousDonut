@@ -157,6 +157,8 @@ router.get('/:id', function(req, res, next) {
 
 router.get('/:id/edit', function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story){
+    
+
     res.render('stories/edit', {
       story: story
     });
