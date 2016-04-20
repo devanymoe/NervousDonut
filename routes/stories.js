@@ -16,36 +16,22 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/new', function(req, res, next) {
-  var image1;
-  var image2;
-  var image3;
-  rp({uri: 'https://api.unsplash.com/photos/random?client_id=' + process.env.app_id})
-    .then(function(data) {
-      image1 = JSON.parse(data);
-      rp({uri: 'https://api.unsplash.com/photos/random?client_id=' + process.env.app_id})
-        .then(function(data2) {
-          image2 = JSON.parse(data2);
-          rp({uri: 'https://api.unsplash.com/photos/random?client_id=' + process.env.app_id})
-            .then(function(data3) {
-              image3 = JSON.parse(data3);
-              res.render('stories/new', {
-                image1: image1,
-                image2: image2,
-                image3: image3
-              })
-            })
-            .catch(function(err) {
-              console.log(err);
-            });
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-    })
-    .catch(function(err) {
-      console.log(err);
+  var imageUrl = 'https://api.unsplash.com/photos/random?client_id=' + process.env.app_id;
+
+  Promise.all([
+    rp({uri: imageUrl, json: true}),
+    rp({uri: imageUrl, json: true}),
+    rp({uri: imageUrl, json: true})
+  ]).then(function(images) {
+    res.render('stories/new', {
+      image1: images[0],
+      image2: images[1],
+      image3: images[2]
     });
-})
+  }).catch(function(err) {
+    console.log(err);
+  });
+});
 
 router.get('/top', function(req, res, next) {
   Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').then(function(topStories) {

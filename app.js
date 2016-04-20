@@ -23,24 +23,47 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+passport.deserializeUser(function(id, done) {
+  knex('users').first().where('id', id)
+    .then(function (user) {
+      done(null, user);
+    })
+    .catch(function (err) {
+      done(err);
+    });
 });
 
 passport.use(new GoogleStrategy({
-    clientID:  process.env.GOOGLE_CLIENT_ID,
+    clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.HOST + "/auth/google/callback",
     scope: ['email', 'profile'],
-    passReqToCallback   : true
+    passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
     console.log(profile);
-    done(null, profile);
 
+    // insert into database
+    knex('users').first().where('googleId', profile.id).then(function(user) {
+      if (!user) {
+        knex('users').insert({
+          email: profile.emails[0].value,
+          username: profile.displayName,
+          first_name: profile.name.givenName,
+          last_name: profile.name.familyName,
+          superuser: false,
+          googleId: profile.id
+        }, '*').then(function(newUser) {
+          done(null, newUser);
+        });
+      }
+      else {
+        done(null, user);
+      }
+    });
   }
 ));
 
