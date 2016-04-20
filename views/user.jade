@@ -2,7 +2,7 @@ extends ./layout
 
 block content
   div.container
-    p= 'Welcome, ' + user.first_name + ' ' + user.last_name
+    p='Welcome, ' + user.first_name + ' ' + user.last_name
     each story in userStories
       div.row
         img.image(src= story.image_1)  
