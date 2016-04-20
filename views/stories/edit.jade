@@ -8,14 +8,18 @@ block content
   div= 'Last updated at: ' + story.updated_at    
   
   form(id='newStory' method='post')
+    if message
+      ul
+        each error in message
+          li.error= error
     div
       label Title
       br
-      input(type='text' name='title' value=story.title)
+      input(type='text' name='title' value= title || story.title)
     div
       label Your Story
       br
-      textarea(type='text' rows='5' name='text')= story.text
+      textarea(type='text' rows='5' name='text')= text || story.text
     div
       input(hidden type='text' name='image_1' value= story.image_1) 
       input(hidden type='text' name='image_2' value= story.image_2)
