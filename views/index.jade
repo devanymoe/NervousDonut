@@ -5,7 +5,7 @@ block content
   if user
     p
       a(href="/logout") Logout
+    p Hello #{user.first_name}
   else
     p
       a(href="/auth/google") Login
-  p Hello #{user.first_name}
