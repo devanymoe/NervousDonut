@@ -39,11 +39,16 @@ a {
   color: red;
 }
 
-input, textarea {
+.container .formContainer input, .container .formContainer textarea {
   margin-bottom: 20px;
+  box-shadow: none;
 }
 
-.formContainer textarea:focus, .formContainer input:focus, .formContainer select:focus, .options select:focus, .options input:focus {
+form {
+  margin-top: 10px;
+}
+
+.formContainer textarea:focus, .formContainer input:focus, .formContainer select:focus {
   box-shadow: none;
   border: 1px solid #4E0000;
 }
