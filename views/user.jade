@@ -2,8 +2,14 @@ extends ./layout
 
 block content
   div.container
+    p= 'Welcome, ' + user.first_name + ' ' + user.last_name
     each story in userStories
+      div.row
+        img.image(src= story.image_1)  
+        img.image(src= story.image_2)
+        img.image(src= story.image_3)
       div.row
         h1= story.title
         p= story.created_at
+        p= 'Likes: ' + story.likes
         p= story.text
