@@ -1,11 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  if user
-    p
-      a(href="/logout") Logout
-    p Hello #{user.first_name}
-  else
-    p
-      a(href="/auth/google") Login
+  div.container-fluid
+    div.hero
+      div.row
+        p.headline Creative writing
+        p.headline made easy.

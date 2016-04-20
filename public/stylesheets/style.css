@@ -1,8 +1,7 @@
 /* MAIN STYLES */
 
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Raleway', sans-serif;
 }
 
 a {
@@ -11,6 +10,7 @@ a {
 
 .container {
   margin-top: 60px;
+  padding-top: 50px;
 }
 
 
@@ -32,6 +32,27 @@ a {
   display: inline-block;
 }
 
+/* HOMEPAGE STYLES */
+
+.hero {
+  background-color: #000;
+  height: 500px;
+  padding-left: 200px;
+  padding-top: 220px;
+  background-image: url('../images/hero.jpg');
+}
+
+.container-fluid {
+  left: 0;
+  right: 0;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.headline {
+  font-size: 40px;
+  color: #fff;
+}
 
 /* FORM STYLES*/
 
@@ -131,7 +152,7 @@ form {
 }
 
 .loggedAs {
-  margin-top: 16px;
+  margin-top: 17px;
   color: #808080;
   margin-left: 8px;
   margin-right: 8px;
