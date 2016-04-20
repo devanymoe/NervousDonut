@@ -29,6 +29,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   knex('users').first().where('id', user.id)
     .then(function (user) {
+      console.log('deserialize', user);
       done(null, user);
     })
     .catch(function (err) {
@@ -39,7 +40,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://nervous-donut.herokuapp.com/auth/google/callback",
+    callbackURL: "/auth/google/callback",
     scope: ['email', 'profile'],
     passReqToCallback: true
   },
@@ -56,10 +57,12 @@ passport.use(new GoogleStrategy({
           superuser: false,
           googleId: profile.id
         }, '*').then(function(user) {
+          console.log('new user', user);
           done(null, user);
         });
       }
       else {
+        console.log('old user', user);
         done(null, user);
       }
     });
@@ -74,17 +77,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('express-method-override')());
+app.use(session({
+  name: 'session',
+  keys: [process.env.SESSION_KEY]
+}));
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(session({
-//   name: 'session',
-//   keys: [process.env.SESSION_KEY]
-// }));
+
 
 require('dotenv').load();
 knex.migrate.latest();
 
 app.use(function (req, res, next) {
+  console.log(req.user);
   res.locals.user = req.user
   // console.log(req.user);
   // console.log(res.locals.user);
@@ -100,11 +105,11 @@ app.use('/stories', stories);
 
 app.get('/auth/google', passport.authenticate('google'));
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope:
-  	[ 'https://www.googleapis.com/auth/plus.login',
-  	, 'https://www.googleapis.com/auth/plus.profile' ] }
-));
+// app.get('/auth/google',
+//   passport.authenticate('google', { scope:
+//   	[ 'https://www.googleapis.com/auth/plus.login',
+//   	, 'https://www.googleapis.com/auth/plus.profile' ] }
+// ));
 
 app.get( '/auth/google/callback',
 	passport.authenticate( 'google', {
