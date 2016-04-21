@@ -11,15 +11,20 @@ block content
                 img.edit(src="/images/edit.png")
               a(href='/stories/' + story.id + '/delete')
                 img.delete(src="/images/delete.png")
-          h1= story.title
+          h1#storyTitle= story.title
           div.detail= 'By: '
             a(href="/users/" + thisUser.username)=thisUser.username
           div.detail= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
           if story.created_at.toString() !== story.updated_at.toString()
             div.detail= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")
-          div.detail= 'Likes: ' + story.likes 
+          div.detail
+            span= 'Likes: '
+            span#likesSpan= story.likes 
           div.threeImages
             div.imageContainer(style="background-image: url('" + story.image_1 + "')")
             div.imageContainer(style="background-image: url('" + story.image_2 + "')")
             div.imageContainer(style="background-image: url('" + story.image_3 + "')")
           div= story.text
+          div
+            form(id="likeForm", method="post", action="/stories/" + story.id + "/like")
+              button#likeButton(type='submit') like

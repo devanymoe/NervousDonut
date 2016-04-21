@@ -78,6 +78,11 @@ router.get('/latest', function(req, res, next) {
   });
 });
 
+router.post('/:id/like', checkLoggedIn, function(req, res, next){
+  Stories().where('id', req.params.id).increment('likes', 1).then(function(){
+    res.redirect('/stories/' + req.params.id);
+  });
+})
 router.get('/new/save', checkLoggedIn, function(req, res, next) {
   res.render('stories');
 });
