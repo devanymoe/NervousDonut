@@ -261,18 +261,16 @@ router.get('/:id', function(req, res, next) {
 
 router.get('/:id/edit', checkLoggedIn, function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story){
-    Users().first('username').where('id', story.user_id).then(function(user){
-      if (user.id === story.user_id) {
-        res.render('stories/edit', {
-          story: story
-        });
-      } else {
-        res.render('user/user', {
-          message: "You do not have permission to edit another user's story."
-        })
-      };
-    })
-  })
+    if (req.user.id === story.user_id) {
+      res.render('stories/edit', {
+        story: story
+      });
+    } else {
+      res.render('user/user', {
+        message: "You do not have permission to edit another user's story."
+      })
+    }
+  });
 });
 
 module.exports = router;
