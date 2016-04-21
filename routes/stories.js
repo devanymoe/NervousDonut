@@ -4,6 +4,15 @@ var validations = require('../lib/validations');
 var knex = require('../db/knex');
 var rp = require('request-promise');
 
+var checkLoggedIn = function(req, res, next) {
+  if (!req.user) {
+    res.redirect('/');
+  }
+  else {
+    next();
+  }
+};
+
 function Stories() {
   return knex('stories');
 }
@@ -23,7 +32,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/new', function(req, res, next) {
+router.get('/new', checkLoggedIn, function(req, res, next) {
   var imageUrl = 'https://api.unsplash.com/photos/random?client_id=' + process.env.app_id;
 
   Promise.all([
@@ -57,15 +66,11 @@ router.get('/latest', function(req, res, next) {
   });
 });
 
-router.get('/new/save', function(req, res, next) {
+router.get('/new/save', checkLoggedIn, function(req, res, next) {
   res.render('stories');
 });
 
-router.get('/new', function(req, res, next) {
-  res.render('new');
-});
-
-router.post('/new/save', function(req, res, next) {
+router.post('/new/save', checkLoggedIn, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
   var errors = [];
@@ -109,7 +114,7 @@ router.post('/new/save', function(req, res, next) {
   }
 });
 
-router.post('/new/publish', function(req, res, next) {
+router.post('/new/publish', checkLoggedIn, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
   var errors = [];
@@ -153,7 +158,7 @@ router.post('/new/publish', function(req, res, next) {
   }
 });
 
-router.put('/:id/edit/save', function(req, res, next) {
+router.put('/:id/edit/save', checkLoggedIn, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
   var errors = [];
@@ -199,7 +204,7 @@ router.put('/:id/edit/save', function(req, res, next) {
   }
 });
 
-router.put('/:id/edit/publish', function(req, res, next) {
+router.put('/:id/edit/publish', checkLoggedIn, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
   var errors = [];
@@ -256,7 +261,7 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
-router.get('/:id/edit', function(req, res, next) {
+router.get('/:id/edit', checkLoggedIn, function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story){
     res.render('stories/edit', {
       story: story

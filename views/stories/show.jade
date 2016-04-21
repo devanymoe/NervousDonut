@@ -4,13 +4,17 @@ block content
   div.container
     div.row
       div.col-md-12
+        h1= story.title
         div= story.created_at
         if story.created_at !== story.updated_at
           div= story.updated_at
-        div= 'Written by: ' + user.username
+        div= 'Written by: '
+          a(href="/users/" + user.username)=user.username
         div= 'Likes: ' + story.likes 
-        img(src= story.image_1).image
-        img(src= story.image_2).image
-        img(src= story.image_3).image
-        h1= story.title
+        div.imageContainer
+          img(src= story.image_1).image
+        div.imageContainer
+          img(src= story.image_2).image
+        div.imageContainer
+          img(src= story.image_3).image
         div= story.text

@@ -1,33 +1,42 @@
 extends ../layout
 
 block content
-  img(src= story.image_1).image
-  img(src= story.image_2).image
-  img(src= story.image_3).image
-  
-  div= 'Last updated at: ' + story.updated_at    
-  
-  form(id='newStory' method='post')
-    if message
-      ul
-        each error in message
-          li.error= error
-    div
-      label Title
-      br
-      input(type='text' name='title' value= title || story.title)
-    div
-      label Your Story
-      br
-      textarea(type='text' rows='5' name='text')= text || story.text
-    div
-      input(hidden type='text' name='image_1' value= story.image_1) 
-      input(hidden type='text' name='image_2' value= story.image_2)
-      input(hidden type='text' name='image_3' value= story.image_3)    
-      input(hidden type='integer' name='likes' value= story.likes)
-      input(hidden type='number' name='user_id' value= story.user_id)
-    div
-      button(type='submit' formaction='/stories/' + story.id + '/edit/save?_method=put' name="save" value="save") Save
-      if story.published === false 
-        button(type='submit' formaction='/stories/' + story.id + '/edit/publish?_method=put' name="publish" value="publish") Publish
-        
+  div.container
+    div.row
+      div.col-md-8
+        div.formContainer
+          if message
+            ul
+              each error in message
+                li.error= error     
+          div= 'Last updated at: ' + story.updated_at    
+          form(id='newStory' method='post')
+            div
+              label Title
+              br
+              input(type='text' name='title' value= title || story.title).form-control
+            div.imageContainer
+              img(src= story.image_1).image
+            div.imageContainer
+              img(src= story.image_2).image
+            div.imageContainer
+              img(src= story.image_3).image
+            div
+              label Your Story
+              br
+              textarea(type='text' rows='10' name='text').form-control= text || story.text
+            div
+              input(hidden type='text' name='image_1' value= story.image_1) 
+              input(hidden type='text' name='image_2' value= story.image_2)
+              input(hidden type='text' name='image_3' value= story.image_3)    
+              input(hidden type='integer' name='likes' value= story.likes)
+              input(hidden type='number' name='user_id' value= story.user_id)
+            div
+              div.row
+                div.col-md-6
+                  button(type='submit' formaction='/stories/' + story.id + '/edit/save?_method=put' name="save" value="save").form-control.form-button-save Save
+                div.col-md-6
+                  if story.published === false 
+                    button(type='submit' formaction='/stories/' + story.id + '/edit/publish?_method=put' name="publish" value="publish").form-control.form-button-publish Publish
+      div.col-md-4
+                

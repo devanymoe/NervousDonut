@@ -1,30 +1,40 @@
 extends ../layout
 
 block content
-  img(src= existingImage_1 || image1.urls.regular).image
-  img(src= existingImage_2 || image2.urls.regular).image
-  img(src= existingImage_3 || image3.urls.regular).image
-  
-  form(id='newStory' method='post')
-    if message
-      ul
-        each error in message
-          li.error= error
-    div
-      label Title
-      br
-      input(type='text' name='title' value=title)
-    div
-      label Your Story
-      br
-      textarea(type='text' rows='5' name='text')= text
-    div
-      input(hidden type='text' name='image_1' value=existingImage_1 || image1.urls.regular) 
-      input(hidden type='text' name='image_2' value=existingImage_2 || image2.urls.regular)
-      input(hidden type='text' name='image_3' value=existingImage_3 || image3.urls.regular)
-    div
-      button(type='submit' formaction='/stories/new/save' name="save" value="save") Save
-      button(type='submit' formaction='/stories/new/publish' name="publish" value="publish") Publish
+  div.container
+    div.row
+      div.col-md-8
+        div.formContainer          
+          form(id='newStory' method='post')
+            if message
+              ul
+                each error in message
+                  li.error= error
+            div
+              label Title
+              br
+              input(type='text' name='title' value=title).form-control
+            div.imageContainer
+              img(src= existingImage_1 || image1.urls.regular).image
+            div.imageContainer
+              img(src= existingImage_2 || image2.urls.regular).image
+            div.imageContainer
+              img(src= existingImage_3 || image3.urls.regular).image
+            div
+              label Your Story
+              br
+              textarea(type='text' rows='10' name='text').form-control= text
+            div
+              input(hidden type='text' name='image_1' value=existingImage_1 || image1.urls.regular) 
+              input(hidden type='text' name='image_2' value=existingImage_2 || image2.urls.regular)
+              input(hidden type='text' name='image_3' value=existingImage_3 || image3.urls.regular)
+            div
+              div.row
+                div.col-md-6
+                  button(type='submit' formaction='/stories/new/save' name="save" value="save").form-control.form-button-save Save
+                div.col-md-6
+                  button(type='submit' formaction='/stories/new/publish' name="publish" value="publish").form-control.form-button-publish Publish
+        div.col-md-4
       
 
     
