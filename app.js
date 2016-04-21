@@ -27,15 +27,21 @@ passport.serializeUser(function(user, done) {
   done(null, user);
 });
 
+// passport.deserializeUser(function(user, done) {
+//   knex('users').first().where('id', user.id)
+//     .then(function (user) {
+//       done(null, user);
+//     })
+//     .catch(function (err) {
+//       done(err);
+//     });
+// });
+
+
 passport.deserializeUser(function(user, done) {
-  knex('users').first().where('id', user.id)
-    .then(function (user) {
-      done(null, user);
-    })
-    .catch(function (err) {
-      done(err);
-    });
+  done(null, user);
 });
+
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -57,7 +63,7 @@ passport.use(new GoogleStrategy({
           superuser: false,
           googleId: profile.id
         }, '*').then(function(user) {
-          done(null, user);
+          done(null, user[0]);
         });
       }
       else {
