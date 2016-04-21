@@ -5,18 +5,20 @@ block content
   table.table.table-striped
     thead
       tr
-        th Username
-        th Stories
+        th User
+        th Recent Stories
     tbody
       for user in allUsers
-        tr
-          td
-            a(href='/users/' + user.username)= user.username
-            br
-            = user.size + ' published stories'
-          td
-            if user.stories
-              for story in user.stories
-                a(href= '/stories/' + story.id) #{story.title}
-                span  ... #{story.likes} likes
-                br
+        if user.stories.length > 0
+          tr
+            td
+              a(href='/users/' + user.username)= user.username
+              br
+              p= user.first_name + ' ' + user.last_name
+              p= user.size + ' published stories'
+            td
+              if user.stories.length
+                for story in user.recentStories
+                  a(href= '/stories/' + story.id) #{story.title}
+                  span  ... #{story.likes} likes
+                  br

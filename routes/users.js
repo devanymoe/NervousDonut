@@ -15,21 +15,22 @@ function JoinedTable() {
 }
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  Users().select().then(function(getusers) {
-    Users().innerJoin('stories', 'users.id', 'stories.user_id').select().then(function(getstories) {
-        for (var i = 0; i < getusers.length; i++ ) {
-          var user = getusers[i];
+    Users().select().orderBy('username', 'asc').then(function(getusers) {
+      Users().innerJoin('stories', 'users.id', 'stories.user_id').select().then(function(getstories) {
+          for (var i = 0; i < getusers.length; i++ ) {
+            var user = getusers[i];
 
-          user.stories = _.filter(getstories, function(story) {
-            return story.user_id === user.id && story.published === true;
-          });
+            user.stories = _.filter(getstories, function(story) {
+              return story.user_id === user.id && story.published === true;
+            });
 
-          user.size = _.size(user.stories);
-          console.log(user.size);
+            user.size = _.size(user.stories);
 
-        }
-        res.render('users/index', {
-          allUsers: getusers,
+            user.recentStories = user.stories.slice(0,5);
+            // console.log(groupedData);
+          }
+          res.render('users/index', {
+            allUsers: getusers,
       });
     });
   });
