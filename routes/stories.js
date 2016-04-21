@@ -72,7 +72,6 @@ router.get('/new/save', checkLoggedIn, function(req, res, next) {
 router.post('/new/save', checkLoggedIn, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
-<<<<<<< HEAD
   var errors = [];
 
   errors.push(validations.titleIsNotBlank(req.body.title));

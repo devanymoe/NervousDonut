@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex.js');
+var _ = require('underscore');
 
 function Users(){
   return knex('users')
@@ -8,12 +9,27 @@ function Users(){
 function Stories(){
   return knex('stories')
 }
+
+function JoinedTable() {
+  return knex('user_stories')
+}
 /* GET users listing. */
 
 router.get('/allusers', function(req, res, next) {
-  Users().select().orderBy('username', 'asc').then(function(user) {
-    res.render('user/allusers', {
-      allUsers: user
+  Users().select().orderBy('username', 'asc').then(function(getusers) {
+    JoinedTable().innerJoin('stories', 'user_stories.story_id', 'stories.id').select().then(function(getstories) {
+      // console.log(getstories);
+      for (var i = 0; i < getusers.length; i++ ) {
+        var user = getusers[i];
+
+        user.stories = _.filter(getstories, function(story) {
+          return story.user_id === user.id;
+        });
+        console.log(user.stories);
+      }
+      res.render('user/allusers', {
+        allUsers: getusers
+      });
     });
   });
 })
