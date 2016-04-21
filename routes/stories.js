@@ -13,6 +13,17 @@ var checkLoggedIn = function(req, res, next) {
   }
 };
 
+var checkAuthor = function(req, res, next) {
+  knex('stories').first().where('id', req.params.id).then(function(story) {
+    if (req.user.id !== story.user_id) {
+      res.redirect('/');
+    }
+    else {
+      next();
+    }
+  });
+};
+
 function Stories() {
   return knex('stories');
 }
@@ -159,7 +170,7 @@ router.post('/new/publish', checkLoggedIn, function(req, res, next) {
   }
 });
 
-router.put('/:id/edit/save', checkLoggedIn, function(req, res, next) {
+router.put('/:id/edit/save', checkLoggedIn, checkAuthor, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
   var errors = [];
@@ -205,7 +216,7 @@ router.put('/:id/edit/save', checkLoggedIn, function(req, res, next) {
   }
 });
 
-router.put('/:id/edit/publish', checkLoggedIn, function(req, res, next) {
+router.put('/:id/edit/publish', checkLoggedIn, checkAuthor, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
   var errors = [];
@@ -254,25 +265,27 @@ router.put('/:id/edit/publish', checkLoggedIn, function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story) {
     Users().first('username', 'id').where('id', story.user_id).then(function(thisUser) {
-      res.render('stories/show', {
-        story: story,
-        thisUser: thisUser
-      });
+      if ((story.published === false) && !req.user) {
+        res.redirect('/')
+      }
+      else if ((story.published === false) && (req.user.id !== story.user_id)){
+        res.redirect('/')
+      }
+      else {
+        res.render('stories/show', {
+          story: story,
+          thisUser: thisUser
+        });
+      }
     });
   });
 });
 
-router.get('/:id/edit', checkLoggedIn, function(req, res, next) {
+router.get('/:id/edit', checkLoggedIn, checkAuthor, function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story){
-    if (req.user.id === story.user_id) {
-      res.render('stories/edit', {
-        story: story
-      });
-    } else {
-      res.render('users/show', {
-        message: "You do not have permission to edit another user's story."
-      })
-    }
+    res.render('stories/edit', {
+      story: story
+    });
   });
 });
 
