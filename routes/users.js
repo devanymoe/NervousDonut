@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex.js');
+var _ = require('underscore');
 
 function Users(){
   return knex('users')
@@ -8,12 +9,28 @@ function Users(){
 function Stories(){
   return knex('stories')
 }
-/* GET users listing. */
 
+function JoinedTable() {
+  return knex('user_stories')
+}
+/* GET users listing. */
 router.get('/', function(req, res, next) {
-  Users().select().orderBy('username', 'asc').then(function(allUsers) {
-    res.render('users/index', {
-      allUsers: allUsers
+  Users().select().then(function(getusers) {
+    Users().innerJoin('stories', 'users.id', 'stories.user_id').select().then(function(getstories) {
+        for (var i = 0; i < getusers.length; i++ ) {
+          var user = getusers[i];
+
+          user.stories = _.filter(getstories, function(story) {
+            return story.user_id === user.id && story.published === true;
+          });
+
+          user.size = _.size(user.stories);
+          console.log(user.size);
+
+        }
+        res.render('users/index', {
+          allUsers: getusers,
+      });
     });
   });
 })
