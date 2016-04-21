@@ -328,3 +328,17 @@ form {
   margin-left: 8px;
   margin-right: 8px;
 }
+
+/* TABLE STYLES*/
+
+table {
+  margin-top: 30px;
+}
+
+.storyPage .storyContainer td, .storyPage .storyContainer th, .storyPage .storyContainer tr {
+  padding: 30px;
+}
+
+.total {
+  font-style: italic;
+}

@@ -1,24 +1,27 @@
 extends ../layout
 
 block content
-  h2 Featured Donut Eaters
-  table.table.table-striped
-    thead
-      tr
-        th User
-        th Recent Stories
-    tbody
-      for thisUser in allUsers
-        if thisUser.stories.length > 0
-          tr
-            td
-              a(href='/users/' + thisUser.username)= thisUser.username
-              br
-              p= thisUser.first_name + ' ' + thisUser.last_name
-              p= thisUser.size + ' published stories'
-            td
-              if thisUser.stories.length
-                for story in thisUser.recentStories
-                  a(href= '/stories/' + story.id) #{story.title}
-                  span  ... #{story.likes} likes
-                  br
+  div.storyPage
+    div.container.storyContainer
+      div.row
+        div.col-md-8.col-md-offset-2
+          h2 Featured Donut Eaters
+          table.table.table-striped
+            thead
+              tr
+                th User
+                th Recent Stories
+            tbody
+              for thisUser in allUsers
+                if thisUser.stories.length > 0
+                  tr
+                    td
+                      a(href='/users/' + thisUser.username)= thisUser.username
+                      br
+                      p.total= thisUser.size + ' published stories'
+                    td
+                      if thisUser.stories.length
+                        for story in thisUser.recentStories
+                          a(href= '/stories/' + story.id) #{story.title}
+                          span= " (" + story.likes + " likes)"
+                          br
