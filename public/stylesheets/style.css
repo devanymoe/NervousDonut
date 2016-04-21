@@ -54,6 +54,25 @@ a {
   color: #fff;
 }
 
+.features {
+  text-align: center;
+  margin: 80px 50px 50px 80px;
+}
+
+.features i {
+  font-size: 80px;
+}
+
+.features h4 {
+  font-size: 24px;
+}
+
+.feature {
+  font-size: 18px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 /* FORM STYLES*/
 
 .error {
