@@ -8,11 +8,11 @@ block content
           div.col-md-8.col-md-offset-2.story
             h1
               a(href="/stories/" + story.story_id)= story.title
-            div= story.created_at
-            if story.created_at !== story.updated_at
-              div= story.updated_at
+            div= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
+            if story.created_at.toString() !== story.updated_at.toString()
+              div= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")
             div
-              span= 'Written by: '
+              span= 'By: '
               a(href='/users/' + story.username)
                 span= story.username
             div= 'Likes: ' + story.likes 
