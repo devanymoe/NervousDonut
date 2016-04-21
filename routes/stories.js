@@ -123,8 +123,7 @@ router.post('/new/save', checkLoggedIn, function(req, res, next) {
       res.redirect('/stories')
     })
   }
-
-});
+})
 
 router.post('/new/publish', checkLoggedIn, function(req, res, next) {
   var d = new Date();
