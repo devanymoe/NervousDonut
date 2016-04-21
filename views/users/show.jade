@@ -28,8 +28,8 @@ block content
                 a(href="/stories/" + story.id)= story.title
               div.detail
                 span= 'By: '
-                a(href='/users/' + story.username)
-                  span= story.username
+                a(href='/users/' + thisUser.username)
+                  span= thisUser.username
               div.detail= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
               if story.created_at.toString() !== story.updated_at.toString()
                 div.detail= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")
