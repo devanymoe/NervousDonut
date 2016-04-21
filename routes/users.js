@@ -9,8 +9,15 @@ function Stories(){
   return knex('stories')
 }
 /* GET users listing. */
+router.get('/allusers', function(req, res, next) {
+  Users().select().orderBy('username', 'asc').then(function(user) {
+    res.render('user/allusers', {
+      allUsers: user
+    });
+  });
+})
+
 router.get('/:username', function(req, res, next) {
-  console.log(req.user.username);
   Users().first().where('username', req.params.username).then(function(user) {
     if (user.id === req.user.id) {
       Stories().select().where('user_id', user.id).orderBy('created_at', 'desc').then(function(stories){
@@ -22,15 +29,6 @@ router.get('/:username', function(req, res, next) {
         res.render('user_published', {user:user, userStories: publishedStories});
       });
     };
-  });
-});
-
-
-
-
-router.get('/allusers', function(req, res, next) {
-  Users().select().then(function(data) {
-    console.log(data);
   });
 });
 

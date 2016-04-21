@@ -1,4 +1,15 @@
 extends ../layout
 
 block content
+  p List of Users
+    table.table.table-striped
+      thead
+        tr
+          th Username
+      tbody
+        for user in allUsers
+          tr
+            // the next line is what my db column name is
+            td
+              a(href='/users/' + user.username)= user.username
   
