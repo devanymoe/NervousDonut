@@ -1,21 +1,22 @@
 extends ../layout
 
 block content
-  p List of Users
-    table.table.table-striped
-      thead
+  h2 Featured Donut Eaters
+  table.table.table-striped
+    thead
+      tr
+        th Username
+        th Stories
+    tbody
+      for user in allUsers
         tr
-          th Username
-          th Book
-      tbody
-        for user in allUsers
-          tr
-            td
-              a(href='/users/' + user.username)= user.username
-            td
-              if user.stories
-                for story in user.stories
-                  option #{story.title}
-                  option #{story.likes}
-                  
-  
+          td
+            a(href='/users/' + user.username)= user.username
+            br
+            = user.size + ' published stories'
+          td
+            if user.stories
+              for story in user.stories
+                a(href= '/stories/' + story.id) #{story.title}
+                span  ... #{story.likes} likes
+                br
