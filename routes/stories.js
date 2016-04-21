@@ -22,10 +22,12 @@ function Users() {
 }
 
 router.get('/', function(req, res, next) {
-  Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(publishedStories) {
-    console.log(publishedStories);
-    res.render('stories/index', {
-      publishedStories: publishedStories
+  Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').limit(2).then(function(latestStories) {
+    Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').limit(2).then(function(topStories) {
+      res.render('stories/index', {
+        latestStories: latestStories,
+        topStories: topStories
+      });
     });
   });
 });

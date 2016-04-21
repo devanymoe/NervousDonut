@@ -2,22 +2,30 @@ extends ../layout
 
 block content
   div.storyPage
+    div.container
+      div.row
+        div.col-md-8.col-md-offset-2.pageTitle
+          h1 Latest Stories
     each story in latestStories    
       div.container.storyContainer
         div.row
           div.col-md-8.col-md-offset-2.story
-            h1
-              a(href="/stories/" + story.story_id)= story.title
-            div= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
-            if story.created_at.toString() !== story.updated_at.toString()
-              div= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")
-            div
-              span= 'By: '
-              a(href='/users/' + story.username)
-                span= story.username
-            div= 'Likes: ' + story.likes 
-            div.threeImages
-              div.imageContainer(style="background-image: url('" + story.image_1 + "')")
-              div.imageContainer(style="background-image: url('" + story.image_2 + "')")
-              div.imageContainer(style="background-image: url('" + story.image_3 + "')")
-            div.storyBody= story.text
+            div.row
+              div.col-md-4
+                a(href="/stories/" + story.story_id)
+                  div.threeImagesGrid
+                    div.imageContainer(style="background-image: url('" + story.image_1 + "')")
+                    div.imageContainer(style="background-image: url('" + story.image_2 + "')")
+                    div.imageContainer(style="background-image: url('" + story.image_3 + "')")
+              div.col-md-8
+                h2
+                  a(href="/stories/" + story.story_id)= story.title
+                div.detail
+                  span= 'By: '
+                  a(href='/users/' + story.username)
+                    span= story.username
+                div.detail= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
+                if story.created_at.toString() !== story.updated_at.toString()
+                  div.detail= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")
+                div.detail= 'Likes: ' + story.likes 
+                div= story.text.substring(0, 290) + '...'
