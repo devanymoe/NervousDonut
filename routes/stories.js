@@ -22,7 +22,11 @@ function Users() {
 }
 
 router.get('/', function(req, res, next) {
-  res.render('stories/index');
+  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').where('published', true).orderBy('created_at', 'desc').then(function(publishedStories) {
+    res.render('stories/index', {
+      publishedStories: publishedStories
+    });
+  });
 });
 
 router.get('/new', checkLoggedIn, function(req, res, next) {
@@ -51,6 +55,8 @@ router.get('/top', function(req, res, next) {
   });
 });
 
+router.get('/top')
+
 router.get('/latest', function(req, res, next) {
   Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(latestStories) {
     res.render('stories/latest', {
@@ -66,6 +72,7 @@ router.get('/new/save', checkLoggedIn, function(req, res, next) {
 router.post('/new/save', checkLoggedIn, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
+<<<<<<< HEAD
   var errors = [];
 
   errors.push(validations.titleIsNotBlank(req.body.title));
@@ -98,13 +105,14 @@ router.post('/new/save', checkLoggedIn, function(req, res, next) {
       image_2: req.body.image_2,
       image_3: req.body.image_3,
       text: req.body.text,
-      user_id: 1,
+      user_id: req.user.id,
       likes: 0,
       published: false
     }).then(function(){
       res.redirect('/stories')
     })
   }
+
 });
 
 router.post('/new/publish', checkLoggedIn, function(req, res, next) {
@@ -142,7 +150,7 @@ router.post('/new/publish', checkLoggedIn, function(req, res, next) {
       image_2: req.body.image_2,
       image_3: req.body.image_3,
       text: req.body.text,
-      user_id: 1,
+      user_id: req.user.id,
       likes: 0,
       published: true
     }, '*').then(function(newStory){
@@ -233,7 +241,7 @@ router.put('/:id/edit/publish', checkLoggedIn, function(req, res, next) {
         image_2: req.body.image_2,
         image_3: req.body.image_3,
         text: req.body.text,
-        user_id: req.body.user_id,
+        user_id: req.user.id,
         likes: req.body.likes,
         published: true
       }).then(function(){
@@ -256,9 +264,17 @@ router.get('/:id', function(req, res, next) {
 
 router.get('/:id/edit', checkLoggedIn, function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story){
-    res.render('stories/edit', {
-      story: story
-    });
+    Users().first('username').where('id', story.user_id).then(function(user){
+      if (user.id === story.user_id) {
+        res.render('stories/edit', {
+          story: story
+        });
+      } else {
+        res.render('user/user', {
+          message: "You do not have permission to edit another user's story."
+        })
+      };
+    })
   })
 });
 

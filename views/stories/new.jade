@@ -1,6 +1,7 @@
 extends ../layout
 
 block content
+
   div.container
     div.row
       div.col-md-8
@@ -28,6 +29,7 @@ block content
               input(hidden type='text' name='image_1' value=existingImage_1 || image1.urls.regular) 
               input(hidden type='text' name='image_2' value=existingImage_2 || image2.urls.regular)
               input(hidden type='text' name='image_3' value=existingImage_3 || image3.urls.regular)
+              input(hidden type='text' name='user_id' value=user.id)
             div
               div.row
                 div.col-md-6
@@ -35,6 +37,7 @@ block content
                 div.col-md-6
                   button(type='submit' formaction='/stories/new/publish' name="publish" value="publish").form-control.form-button-publish Publish
         div.col-md-4
+
       
 
     
