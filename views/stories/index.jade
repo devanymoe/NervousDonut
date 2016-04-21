@@ -1,4 +1,48 @@
 extends ../layout
 
 block content
-  p Hello
+  div.container
+    div.row
+      div.col-md-12
+        h1 Latest Stories
+        a(class="link" href="stories/latest") go to latest stories
+        br
+    each story in latestStories
+      br   
+      div.row
+        div.col-md-12
+          div= story.created_at
+          if story.created_at !== story.updated_at
+            div= story.updated_at
+          div= 'Written by: ' + story.username
+          div= 'Likes: ' + story.likes 
+          img(src= story.image_1).image
+          img(src= story.image_2).image
+          img(src= story.image_3).image
+          h1= story.title
+          div= story.text
+          br
+     a(class="link" href="stories/latest") more latest stories
+     br
+    
+    div.row
+      div.col-md-12  
+        h1 Top Stories
+        a(class="link" href="stories/top") go to top stories
+          br
+          br    
+          each story in topStories  
+            div.row
+              div.col-md-12
+                div= story.created_at
+                if story.created_at !== story.updated_at
+                  div= story.updated_at
+                div= 'Written by: ' + story.username
+                div= 'Likes: ' + story.likes 
+                img(src= story.image_1).image
+                img(src= story.image_2).image
+                img(src= story.image_3).image
+                h1= story.title
+                div= story.text   
+            
+     

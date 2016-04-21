@@ -13,7 +13,14 @@ function Users() {
 }
 
 router.get('/', function(req, res, next) {
-  res.render('stories/index');
+  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').limit(3).then(function(latestStories) {
+  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').limit(3).then(function(topStories) {
+  res.render('stories/index', {
+    latestStories: latestStories,
+    topStories: topStories
+      });
+    });
+  });
 });
 
 router.get('/new', function(req, res, next) {
