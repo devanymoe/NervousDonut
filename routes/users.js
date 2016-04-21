@@ -19,15 +19,15 @@ router.get('/allusers', function(req, res, next) {
 })
 
 router.get('/:username', function(req, res, next) {
-  Users().first().where('username', req.params.username).then(function(user) {
-    if (user.id === req.user.id) {
-      Stories().select().where('user_id', user.id).orderBy('created_at', 'desc').then(function(stories){
-        res.render('users/show', {user: user, userStories: stories});
+  Users().first().where('username', req.params.username).then(function(thisUser) {
+    if (thisUser.id === req.user.id) {
+      Stories().select().where('user_id', thisUser.id).orderBy('created_at', 'desc').then(function(stories){
+        res.render('users/show', {thisUser: thisUser, userStories: stories});
       })
     }
     else {
-      Stories().select().where('published', true).andWhere('user_id', user.id).orderBy('created_at', 'desc').then(function(publishedStories){
-        res.render('users/show_published', {user:user, userStories: publishedStories});
+      Stories().select().where('published', true).andWhere('user_id', thisUser.id).orderBy('created_at', 'desc').then(function(publishedStories){
+        res.render('users/show_published', {thisUser: thisUser, userStories: publishedStories});
       });
     };
   });
