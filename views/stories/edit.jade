@@ -38,6 +38,8 @@ block content
                   else
                     button(type='submit' formaction='/stories/' + story.id + '/edit/publish?_method=put' name="save" value="publish").form-control.form-button-save Save
                 div.col-md-6
+                    button(type='submit' formaction='/stories/' + story.id + '/delete?_method=put' name="delete" value="delete").form-control.form-button-save Delete
+                div.col-md-6
                   if story.published === false 
                     button(type='submit' formaction='/stories/' + story.id + '/edit/publish?_method=put' name="publish" value="publish").form-control.form-button-publish Publish
                 
