@@ -5,7 +5,7 @@ block content
     div.container
       div.row
         div.col-md-8.col-md-offset-2.pageTitle
-          h1= thisUser.first_name + ' ' + thisUser.last_name + "'s Stories"
+          h1= "Stories by " + thisUser.username
   each story in userStories
     div.container.storyContainer
       div.row

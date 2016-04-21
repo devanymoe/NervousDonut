@@ -32,10 +32,11 @@ block content
                     div.detail= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")
                   div.detail= 'Likes: ' + story.likes 
                   div= story.text.substring(0, 290) + '...'
-    div.row
-      div.col-md-4.col-md-offset-4
-        a.viewMoreLink(href='/stories/top')
-          button.form-control.viewMore View More Top Stories
+    div.container
+      div.row
+        div.col-md-4.col-md-offset-4
+          a.viewMoreLink(href='/stories/top')
+            button.form-control.viewMore View More Top Stories
     div.container
       div.row
         div.col-md-8.col-md-offset-2.pageTitle
@@ -65,7 +66,8 @@ block content
                     div.detail= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")
                   div.detail= 'Likes: ' + story.likes 
                   div= story.text.substring(0, 290) + '...'
-    div.row
-      div.col-md-4.col-md-offset-4
-        a.viewMoreLink(href='/stories/latest')
-          button.form-control.viewMore View More Latest Stories
+    div.container
+      div.row
+        div.col-md-4.col-md-offset-4
+          a.viewMoreLink(href='/stories/latest')
+            button.form-control.viewMore View More Latest Stories

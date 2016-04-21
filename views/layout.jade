@@ -29,6 +29,8 @@ html
             li
               a(href='/users') Users
             if user
+              li
+                a(href='/users/' + user.username) My Profile
               li.loggedAs= 'Logged in as ' + user.username
               li
                 a(href='/logout') Logout
