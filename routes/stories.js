@@ -22,7 +22,8 @@ function Users() {
 }
 
 router.get('/', function(req, res, next) {
-  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').where('published', true).orderBy('created_at', 'desc').then(function(publishedStories) {
+  Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(publishedStories) {
+    console.log(publishedStories);
     res.render('stories/index', {
       publishedStories: publishedStories
     });
@@ -48,7 +49,7 @@ router.get('/new', checkLoggedIn, function(req, res, next) {
 });
 
 router.get('/top', function(req, res, next) {
-  Stories().select().where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').then(function(topStories) {
+  Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').then(function(topStories) {
     res.render('stories/top', {
       topStories: topStories
     });
@@ -56,7 +57,7 @@ router.get('/top', function(req, res, next) {
 });
 
 router.get('/latest', function(req, res, next) {
-  Stories().select().where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(latestStories) {
+  Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(latestStories) {
     res.render('stories/latest', {
       latestStories: latestStories
     });

@@ -8,13 +8,25 @@ a {
   color: #00B7FF;
 }
 
-.container {
+/*.container {
   margin-top: 60px;
   padding-top: 50px;
+}*/
+
+.spacer {
+  margin-top: 60px;
 }
 
 
 /* SHOW PAGE STYLES*/
+
+.storyPage {
+  padding-top: 50px;
+}
+
+.storyBody {
+  margin-top:20px;
+}
 
 .image {
   left: -50%;
@@ -39,6 +51,16 @@ a {
 .story {
   border-bottom: 1px solid #aaa;
   margin-bottom: 20px;
+  padding-bottom: 70px;
+}
+
+h1 a {
+  color: #000;
+}
+
+h1 a:hover {
+  text-decoration: none;
+  color: #000;
 }
 
 /* HOMEPAGE STYLES */
