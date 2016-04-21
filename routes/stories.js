@@ -48,17 +48,15 @@ router.get('/new', checkLoggedIn, function(req, res, next) {
 });
 
 router.get('/top', function(req, res, next) {
-  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').then(function(topStories) {
+  Stories().select().where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').then(function(topStories) {
     res.render('stories/top', {
       topStories: topStories
     });
   });
 });
 
-router.get('/top')
-
 router.get('/latest', function(req, res, next) {
-  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(latestStories) {
+  Stories().select().where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(latestStories) {
     res.render('stories/latest', {
       latestStories: latestStories
     });
@@ -72,7 +70,6 @@ router.get('/new/save', checkLoggedIn, function(req, res, next) {
 router.post('/new/save', checkLoggedIn, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
-<<<<<<< HEAD
   var errors = [];
 
   errors.push(validations.titleIsNotBlank(req.body.title));
