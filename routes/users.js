@@ -18,20 +18,22 @@ router.get('/', function(req, res, next) {
     Users().select().orderBy('username', 'asc').then(function(getusers) {
       Users().innerJoin('stories', 'users.id', 'stories.user_id').select().then(function(getstories) {
           for (var i = 0; i < getusers.length; i++ ) {
-            var user = getusers[i];
+            var thisUser = getusers[i];
 
-            user.stories = _.filter(getstories, function(story) {
-              return story.user_id === user.id && story.published === true;
+            thisUser.stories = _.filter(getstories, function(story) {
+              console.log(story);
+              return story.user_id === thisUser.id && story.published === true;
             });
 
-            user.size = _.size(user.stories);
+            thisUser.size = _.size(thisUser.stories);
 
-            user.recentStories = user.stories.slice(0,5);
-            // console.log(groupedData);
+            thisUser.recentStories = thisUser.stories.slice(0,5);
           }
-          res.render('users/index', {
-            allUsers: getusers,
-      });
+      }).then(function() {
+        console.log(getusers);
+        res.render('users/index', {
+          allUsers: getusers
+        });
     });
   });
 })
