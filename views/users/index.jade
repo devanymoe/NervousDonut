@@ -8,17 +8,17 @@ block content
         th User
         th Recent Stories
     tbody
-      for user in allUsers
-        if user.stories.length > 0
+      for thisUser in allUsers
+        if thisUser.stories.length > 0
           tr
             td
-              a(href='/users/' + user.username)= user.username
+              a(href='/users/' + thisUser.username)= thisUser.username
               br
-              p= user.first_name + ' ' + user.last_name
-              p= user.size + ' published stories'
+              p= thisUser.first_name + ' ' + thisUser.last_name
+              p= thisUser.size + ' published stories'
             td
-              if user.stories.length
-                for story in user.recentStories
+              if thisUser.stories.length
+                for story in thisUser.recentStories
                   a(href= '/stories/' + story.id) #{story.title}
                   span  ... #{story.likes} likes
                   br
