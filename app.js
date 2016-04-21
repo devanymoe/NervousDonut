@@ -37,6 +37,23 @@ passport.deserializeUser(function(user, done) {
     });
 });
 
+
+// passport.deserializeUser(function(user, done) {
+//   knex('users').first().where('id', user.id)
+//     .then(function (existingUser) {
+//       if (!existingUser) {
+//         done(null, user);
+//       }
+//       else {
+//         done(null, existingUser);
+//       }
+//     })
+//     .catch(function (err) {
+//       done(err);
+//     });
+// });
+
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
