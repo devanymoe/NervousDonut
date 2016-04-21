@@ -8,6 +8,7 @@ var session = require('cookie-session');
 var knex = require ('./db/knex');
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var passport = require('passport');
+var _ = require('underscore');
 
 
 var routes = require('./routes/index');
