@@ -13,10 +13,7 @@ block content
           p= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
           p= 'Likes: ' + story.likes
           div.threeImages
-            div.imageContainer
-              img.image(src= story.image_1)  
-            div.imageContainer  
-              img.image(src= story.image_2)
-            div.imageContainer
-              img.image(src= story.image_3)
+            div.imageContainer(style="background-image: url('" + story.image_1 + "')")
+            div.imageContainer(style="background-image: url('" + story.image_2 + "')")
+            div.imageContainer(style="background-image: url('" + story.image_3 + "')")
           p= story.text

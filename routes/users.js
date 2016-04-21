@@ -20,7 +20,7 @@ router.get('/allusers', function(req, res, next) {
 
 router.get('/:username', function(req, res, next) {
   Users().first().where('username', req.params.username).then(function(thisUser) {
-    if (thisUser.id === req.user.id) {
+    if (req.user && thisUser.id === req.user.id) {
       Stories().select().where('user_id', thisUser.id).orderBy('created_at', 'desc').then(function(stories){
         res.render('users/show', {thisUser: thisUser, userStories: stories});
       })

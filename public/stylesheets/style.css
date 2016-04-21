@@ -39,9 +39,9 @@ a {
   width: 238px;
   height: 238px;
   overflow: hidden;
-  position: relative;
   margin: 12px 18px 12px 0;
   display: inline-block;
+  background-size: cover;
 }
 
 .imageContainer:last-child {

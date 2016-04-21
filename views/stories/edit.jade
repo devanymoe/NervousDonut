@@ -17,12 +17,9 @@ block content
               br
               input(type='text' name='title' value= title || story.title).form-control
             div.threeImages  
-              div.imageContainer
-                img(src= story.image_1).image
-              div.imageContainer
-                img(src= story.image_2).image
-              div.imageContainer
-                img(src= story.image_3).image
+              div.imageContainer(style="background-image: url('" + story.image_1 + "')")
+              div.imageContainer(style="background-image: url('" + story.image_2 + "')")
+              div.imageContainer(style="background-image: url('" + story.image_3 + "')")
             div
               label Your Story
               br
