@@ -289,4 +289,12 @@ router.get('/:id/edit', checkLoggedIn, checkAuthor, function(req, res, next) {
   });
 });
 
+router.get('/:id/delete', checkLoggedIn, checkAuthor, function(req, res, next) {
+  Stories().first().where('id', req.params.id).then(function(story) {
+    res.render('stories/delete', {
+      story: story
+    })
+  });
+});
+
 module.exports = router;

@@ -1,0 +1,43 @@
+extends ../layout
+
+block content
+  div.container
+    div.row
+      div.col-md-8.col-md-offset-2
+        div.formContainer
+          h1 Delete This Story?
+          if message
+            ul
+              each error in message
+                li.error= error       
+          div= 'Last updated: ' + moment(story.updated_at).format("MM/DD/YYYY")
+          form(id='newStory' method='post')
+            div
+              label Title
+              br
+              input(type='text' name='title' value= title || story.title).form-control
+            div.threeImages  
+              div.imageContainer(style="background-image: url('" + story.image_1 + "')")
+              div.imageContainer(style="background-image: url('" + story.image_2 + "')")
+              div.imageContainer(style="background-image: url('" + story.image_3 + "')")
+            div
+              label Your Story
+              br
+              textarea(type='text' rows='10' name='text').form-control= text || story.text
+            div
+              input(hidden type='text' name='image_1' value= story.image_1) 
+              input(hidden type='text' name='image_2' value= story.image_2)
+              input(hidden type='text' name='image_3' value= story.image_3)    
+              input(hidden type='integer' name='likes' value= story.likes)
+              input(hidden type='number' name='user_id' value= story.user_id)
+            div
+              div.row
+                div.col-md-6
+                  if story.published === false
+                    button(type='submit' formaction='/stories/' + story.id + '/edit/save?_method=put' name="delete" value="save").form-control.form-button-save Delete
+                  else
+                    button(type='submit' formaction='/stories/' + story.id + '/edit/publish?_method=put' name="delete" value="publish").form-control.form-button-save Delete
+                div.col-md-6
+                  if story.published === false 
+                    button(type='submit' formaction='/stories/' + story.id + '/edit/publish?_method=put' name="publish" value="publish").form-control.form-button-publish Publish
+                
