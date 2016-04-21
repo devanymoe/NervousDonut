@@ -253,10 +253,10 @@ router.put('/:id/edit/publish', checkLoggedIn, function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story) {
-    Users().first('username').where('id', story.user_id).then(function(user) {
+    Users().first('username', 'id').where('id', story.user_id).then(function(thisUser) {
       res.render('stories/show', {
         story: story,
-        user: user
+        thisUser: thisUser
       });
     });
   });

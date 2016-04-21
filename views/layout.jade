@@ -21,6 +21,9 @@ html
             span Nervous Donut
         div.collapse.navbar-collapse(id='navbar-collapse')
           ul.nav.navbar-nav.navbar-right
+            if user
+              li
+                a(href='/stories/new') New Story
             li
               a(href='/stories') Stories
             li
