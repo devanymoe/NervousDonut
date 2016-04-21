@@ -6,7 +6,7 @@ block content
       div.row
         div.col-md-8.col-md-offset-2
           h1= story.title
-          div= story.created_at
+          div= moment(story.created_at).format("MM/DD/YYYY")
           if story.created_at !== story.updated_at
             div= story.updated_at
           div= 'Written by: '

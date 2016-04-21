@@ -85,8 +85,10 @@ app.use(passport.session());
 require('dotenv').load();
 knex.migrate.latest();
 
+app.locals.moment = require('moment');
+
 app.use(function (req, res, next) {
-  res.locals.user = req.user
+  res.locals.user = req.user;
   next()
 })
 
