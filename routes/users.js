@@ -10,11 +10,23 @@ function Stories(){
 }
 /* GET users listing. */
 router.get('/:username', function(req, res, next) {
-  Users().first().where('username', req.params.username).then(function(user){
-    Stories().select().where('user_id', user.id).orderBy('created_at', 'desc').then(function(stories){
-      res.render('user', {user: user, userStories: stories})
-    })
-  })
+  console.log(req.user.username);
+  Users().first().where('username', req.params.username).then(function(user) {
+    if (user.id === req.user.id) {
+      Stories().select().where('user_id', user.id).orderBy('created_at', 'desc').then(function(stories){
+        res.render('user', {user: user, userStories: stories});
+      })
+    }
+    else {
+      Stories().select().where('published', true).andWhere('user_id', user.id).orderBy('created_at', 'desc').then(function(publishedStories){
+        res.render('user_published', {user:user, userStories: publishedStories});
+      });
+    };
+  });
+});
+
+
+
 
 router.get('/allusers', function(req, res, next) {
   Users().select().then(function(data) {
@@ -22,8 +34,6 @@ router.get('/allusers', function(req, res, next) {
   });
 });
 
-
-});
 
 
 module.exports = router;
