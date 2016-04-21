@@ -9,6 +9,12 @@ block content
     div.container.storyContainer
       div.row
         div.col-md-8.col-md-offset-2.story
+          if owner
+            div.editRemove
+              a(href='/stories/' + story.id + '/edit')  
+                img.edit(src="/images/edit.png")
+              a(href='/stories/' + story.id + '/delete')
+                img.delete(src="/images/delete.png")
           h1= story.title
           p= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
           p= 'Likes: ' + story.likes

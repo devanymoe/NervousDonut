@@ -76,6 +76,15 @@ h1 a:hover {
   color: #000;
 }
 
+.edit, .delete {
+  width: 18px;
+  margin-left: 12px;
+}
+
+.editRemove {
+  text-align: right;
+}
+
 /* HOMEPAGE STYLES */
 
 .hero {
