@@ -13,6 +13,17 @@ var checkLoggedIn = function(req, res, next) {
   }
 };
 
+var checkAuthor = function(req, res, next) {
+  knex('stories').first().where('id', req.params.id).then(function(story) {
+    if (req.user.id !== story.user_id) {
+      res.redirect('/');
+    }
+    else {
+      next();
+    }
+  });
+};
+
 function Stories() {
   return knex('stories');
 }
@@ -22,11 +33,12 @@ function Users() {
 }
 
 router.get('/', function(req, res, next) {
-  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').limit(3).then(function(latestStories) {
-  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').limit(3).then(function(topStories) {
-  res.render('stories/index', {
-    latestStories: latestStories,
-    topStories: topStories
+
+  Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').limit(2).then(function(latestStories) {
+    Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').limit(2).then(function(topStories) {
+      res.render('stories/index', {
+        latestStories: latestStories,
+        topStories: topStories
       });
     });
   });
@@ -51,7 +63,7 @@ router.get('/new', checkLoggedIn, function(req, res, next) {
 });
 
 router.get('/top', function(req, res, next) {
-  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').then(function(topStories) {
+  Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('likes', 'desc').then(function(topStories) {
     res.render('stories/top', {
       topStories: topStories
     });
@@ -59,7 +71,7 @@ router.get('/top', function(req, res, next) {
 });
 
 router.get('/latest', function(req, res, next) {
-  Stories().select().innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(latestStories) {
+  Stories().select('stories.id AS story_id', 'user_id', 'title', 'image_1', 'image_2', 'image_3', 'text', 'created_at', 'updated_at', 'likes', 'published', 'email', 'username', 'first_name', 'last_name', 'superuser', 'googleId').where('published', true).innerJoin('users', 'stories.user_id', 'users.id').orderBy('created_at', 'desc').then(function(latestStories) {
     res.render('stories/latest', {
       latestStories: latestStories
     });
@@ -105,13 +117,14 @@ router.post('/new/save', checkLoggedIn, function(req, res, next) {
       image_2: req.body.image_2,
       image_3: req.body.image_3,
       text: req.body.text,
-      user_id: 1,
+      user_id: req.user.id,
       likes: 0,
       published: false
     }).then(function(){
       res.redirect('/stories')
     })
   }
+
 });
 
 router.post('/new/publish', checkLoggedIn, function(req, res, next) {
@@ -149,7 +162,7 @@ router.post('/new/publish', checkLoggedIn, function(req, res, next) {
       image_2: req.body.image_2,
       image_3: req.body.image_3,
       text: req.body.text,
-      user_id: 1,
+      user_id: req.user.id,
       likes: 0,
       published: true
     }, '*').then(function(newStory){
@@ -158,7 +171,7 @@ router.post('/new/publish', checkLoggedIn, function(req, res, next) {
   }
 });
 
-router.put('/:id/edit/save', checkLoggedIn, function(req, res, next) {
+router.put('/:id/edit/save', checkLoggedIn, checkAuthor, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
   var errors = [];
@@ -204,7 +217,7 @@ router.put('/:id/edit/save', checkLoggedIn, function(req, res, next) {
   }
 });
 
-router.put('/:id/edit/publish', checkLoggedIn, function(req, res, next) {
+router.put('/:id/edit/publish', checkLoggedIn, checkAuthor, function(req, res, next) {
   var d = new Date();
   var isoDate = d.toISOString();
   var errors = [];
@@ -240,7 +253,7 @@ router.put('/:id/edit/publish', checkLoggedIn, function(req, res, next) {
         image_2: req.body.image_2,
         image_3: req.body.image_3,
         text: req.body.text,
-        user_id: req.body.user_id,
+        user_id: req.user.id,
         likes: req.body.likes,
         published: true
       }).then(function(){
@@ -252,21 +265,29 @@ router.put('/:id/edit/publish', checkLoggedIn, function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story) {
-    Users().first('username').where('id', story.user_id).then(function(user) {
-      res.render('stories/show', {
-        story: story,
-        user: user
-      });
+    Users().first('username', 'id').where('id', story.user_id).then(function(thisUser) {
+      if ((story.published === false) && !req.user) {
+        res.redirect('/')
+      }
+      else if ((story.published === false) && (req.user.id !== story.user_id)){
+        res.redirect('/')
+      }
+      else {
+        res.render('stories/show', {
+          story: story,
+          thisUser: thisUser
+        });
+      }
     });
   });
 });
 
-router.get('/:id/edit', checkLoggedIn, function(req, res, next) {
+router.get('/:id/edit', checkLoggedIn, checkAuthor, function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story){
     res.render('stories/edit', {
       story: story
     });
-  })
+  });
 });
 
 module.exports = router;

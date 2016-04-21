@@ -8,13 +8,25 @@ a {
   color: #00B7FF;
 }
 
-.container {
+/*.container {
   margin-top: 60px;
   padding-top: 50px;
+}*/
+
+.spacer {
+  margin-top: 60px;
 }
 
 
 /* SHOW PAGE STYLES*/
+
+.storyPage {
+  padding-top: 50px;
+}
+
+.storyBody {
+  margin-top:20px;
+}
 
 .image {
   left: -50%;
@@ -24,12 +36,102 @@ a {
 }
 
 .imageContainer {
-  width: 230px;
-  height: 230px;
+  width: 238px;
+  height: 238px;
   overflow: hidden;
-  position: relative;
   margin: 12px 18px 12px 0;
   display: inline-block;
+  background-size: cover;
+  background-position: center center;
+}
+
+.imageContainer:last-child {
+  margin-right: 0;
+}
+
+.threeImages {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.threeImagesGrid {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.threeImagesGrid .imageContainer {
+  flex: 0 0 50%;
+  margin: 0;
+  height: 114px;
+  border: 2px solid #fff;
+}
+
+.threeImagesGrid .imageContainer:last-child {
+  flex: 0 0 100%;
+}
+
+.storyContainer {
+  margin-bottom: 20px;
+}
+
+.story {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding-bottom: 50px;
+}
+
+.storyContainer:last-child .story {
+  border-bottom: none;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+h2 a {
+  color: #000;
+}
+
+h2 a:hover {
+  text-decoration: none;
+  color: #000;
+}
+
+.edit, .delete {
+  width: 18px;
+  margin-left: 12px;
+}
+
+.editRemove {
+  text-align: right;
+}
+
+.detail {
+  margin-bottom: 5px;
+}
+
+.storyContainer .story h2 {
+  size: 30px;
+}
+
+.pageTitle {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 50px;
+}
+
+.viewMore {
+  background-color: #4E0000;
+  color: #fff;
+  border: none;
+  margin-bottom: 50px;
+}
+
+.viewMore:hover {
+  background-color: #400000;
+}
+
+.viewMoreLink:hover {
+  text-decoration: none;
 }
 
 /* HOMEPAGE STYLES */
@@ -109,7 +211,7 @@ a {
 }
 
 form {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .formContainer textarea:focus, .formContainer input:focus, .formContainer select:focus {
@@ -125,7 +227,7 @@ form {
 }
 
 .form-button-save:hover {
-  background-color: #CCC;
+  background-color: #888;
 }
 
 .form-button-publish {
@@ -137,6 +239,11 @@ form {
 
 .form-button-publish:hover {
   background-color: #400000;
+}
+
+.formContainer {
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
 

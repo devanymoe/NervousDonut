@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+  div.storyPage
+    div.container
+      div.row
+        div.col-md-8.col-md-offset-2.pageTitle
+          h1= thisUser.first_name + ' ' + thisUser.last_name + "'s Stories"
+  each story in userStories
+    div.container.storyContainer
+      div.row
+        div.col-md-8.col-md-offset-2.story
+          if owner
+            div.editRemove
+              a(href='/stories/' + story.id + '/edit')  
+                img.edit(src="/images/edit.png")
+              a(href='/stories/' + story.id + '/delete')
+                img.delete(src="/images/delete.png")
+          div.row
+            div.col-md-4
+              a(href="/stories/" + story.id)
+                div.threeImagesGrid
+                  div.imageContainer(style="background-image: url('" + story.image_1 + "')")
+                  div.imageContainer(style="background-image: url('" + story.image_2 + "')")
+                  div.imageContainer(style="background-image: url('" + story.image_3 + "')")
+            div.col-md-8
+              h2
+                a(href="/stories/" + story.id)= story.title
+              div.detail
+                span= 'By: '
+                a(href='/users/' + thisUser.username)
+                  span= thisUser.username
+              div.detail= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
+              if story.created_at.toString() !== story.updated_at.toString()
+                div.detail= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")
+              div.detail= 'Likes: ' + story.likes 
+              div= story.text.substring(0, 290) + '...'

@@ -9,13 +9,37 @@ function Stories(){
   return knex('stories')
 }
 /* GET users listing. */
+
+router.get('/', function(req, res, next) {
+  Users().select().orderBy('username', 'asc').then(function(allUsers) {
+    res.render('users/index', {
+      allUsers: allUsers
+    });
+  });
+})
+
 router.get('/:username', function(req, res, next) {
-  Users().first().where('username', req.params.username).then(function(user){
-    Stories().select().where('user_id', user.id).then(function(stories){
-      res.render('user', {user: user, userStories: stories})
-    })
-  })
+  Users().first().where('username', req.params.username).then(function(thisUser) {
+    if (req.user && thisUser.id === req.user.id) {
+      Stories().select().where('user_id', thisUser.id).orderBy('created_at', 'desc').then(function(stories){
+        res.render('users/show', {
+          thisUser: thisUser,
+          userStories: stories,
+          owner: true
+        });
+      })
+    }
+    else {
+      Stories().select().where('published', true).andWhere('user_id', thisUser.id).orderBy('created_at', 'desc').then(function(publishedStories){
+        res.render('users/show', {
+          thisUser: thisUser,
+          userStories: publishedStories
+        });
+      });
+    };
+  });
 });
+
 
 
 module.exports = router;
