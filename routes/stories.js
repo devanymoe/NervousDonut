@@ -263,6 +263,40 @@ router.put('/:id/edit/publish', checkLoggedIn, checkAuthor, function(req, res, n
   }
 });
 
+router.put('/:id/delete', checkLoggedIn, checkAuthor, function(req, res, next) {
+  var d = new Date();
+  var isoDate = d.toISOString();
+  var errors = [];
+
+  errors.push(validations.titleIsNotBlank(req.body.title));
+  errors.push(validations.storyIsNotBlank(req.body.text));
+
+  for(var i = 0; i < errors.length; i++) {
+    if(errors[i] === '') {
+      errors.splice(i, 1);
+      i--;
+    }
+  }
+
+  if (errors.length) {
+    Stories().first().where('id', req.params.id).then(function(story){
+      res.render('stories/edit', {
+        story: story,
+        title: req.body.title,
+        text: req.body.text,
+        message: errors
+      });
+    })
+    return;
+  }
+  else {
+    Stories().where('id', req.params.id).del().then(function(result) {
+        res.redirect('/stories');
+      });
+    }
+  });
+
+
 router.get('/:id', function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story) {
     Users().first('username', 'id').where('id', story.user_id).then(function(thisUser) {
@@ -287,6 +321,14 @@ router.get('/:id/edit', checkLoggedIn, checkAuthor, function(req, res, next) {
     res.render('stories/edit', {
       story: story
     });
+  });
+});
+
+router.get('/:id/delete', checkLoggedIn, checkAuthor, function(req, res, next) {
+  Stories().first().where('id', req.params.id).then(function(story) {
+    res.render('stories/delete', {
+      story: story
+    })
   });
 });
 
