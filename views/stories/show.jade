@@ -5,7 +5,7 @@ block content
     div.container.storyContainer
       div.row
         div.col-md-8.col-md-offset-2
-          if thisUser.id === user.id
+          if user && (thisUser.id === user.id)
             div.editRemove
               a(href='/stories/' + story.id + '/edit')  
                 img.edit(src="/images/edit.png")
