@@ -267,7 +267,7 @@ router.get('/:id/edit', checkLoggedIn, function(req, res, next) {
         story: story
       });
     } else {
-      res.render('user/user', {
+      res.render('users/show', {
         message: "You do not have permission to edit another user's story."
       })
     }
