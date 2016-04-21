@@ -1,16 +1,20 @@
 extends ../layout
 
 block content
-  div.container
-    if user
-      p='Welcome, ' + user.first_name + ' ' + user.last_name
-      each story in userStories
+  if user
+    p='Welcome, ' + user.first_name + ' ' + user.last_name
+    each story in userStories
+      div.container.storyContainer
         div.row
-          img.image(src= story.image_1)  
-          img.image(src= story.image_2)
-          img.image(src= story.image_3)
-        div.row
-          h1= story.title
-          p= story.created_at
-          p= 'Likes: ' + story.likes
-          p= story.text
+          div.col-md-8.col-md-offset-2.story
+            h1= story.title
+            p= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
+            p= 'Likes: ' + story.likes
+            div.threeImages
+              div.imageContainer
+                img.image(src= story.image_1)  
+              div.imageContainer  
+                img.image(src= story.image_2)
+              div.imageContainer
+                img.image(src= story.image_3)
+            p= story.text

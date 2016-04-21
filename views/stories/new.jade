@@ -4,8 +4,9 @@ block content
 
   div.container
     div.row
-      div.col-md-8
-        div.formContainer          
+      div.col-md-8.col-md-offset-2
+        div.formContainer         
+          h1 Create a Story
           form(id='newStory' method='post')
             if message
               ul
@@ -15,12 +16,13 @@ block content
               label Title
               br
               input(type='text' name='title' value=title).form-control
-            div.imageContainer
-              img(src= existingImage_1 || image1.urls.regular).image
-            div.imageContainer
-              img(src= existingImage_2 || image2.urls.regular).image
-            div.imageContainer
-              img(src= existingImage_3 || image3.urls.regular).image
+            div.threeImages
+              div.imageContainer
+                img(src= existingImage_1 || image1.urls.regular).image
+              div.imageContainer
+                img(src= existingImage_2 || image2.urls.regular).image
+              div.imageContainer
+                img(src= existingImage_3 || image3.urls.regular).image
             div
               label Your Story
               br

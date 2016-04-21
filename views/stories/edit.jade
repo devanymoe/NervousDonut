@@ -3,24 +3,26 @@ extends ../layout
 block content
   div.container
     div.row
-      div.col-md-8
+      div.col-md-8.col-md-offset-2
         div.formContainer
+          h1 Edit Story
           if message
             ul
               each error in message
-                li.error= error     
-          div= 'Last updated at: ' + story.updated_at    
+                li.error= error       
+          div= 'Last updated: ' + moment(story.updated_at).format("MM/DD/YYYY")
           form(id='newStory' method='post')
             div
               label Title
               br
               input(type='text' name='title' value= title || story.title).form-control
-            div.imageContainer
-              img(src= story.image_1).image
-            div.imageContainer
-              img(src= story.image_2).image
-            div.imageContainer
-              img(src= story.image_3).image
+            div.threeImages  
+              div.imageContainer
+                img(src= story.image_1).image
+              div.imageContainer
+                img(src= story.image_2).image
+              div.imageContainer
+                img(src= story.image_3).image
             div
               label Your Story
               br
@@ -38,5 +40,4 @@ block content
                 div.col-md-6
                   if story.published === false 
                     button(type='submit' formaction='/stories/' + story.id + '/edit/publish?_method=put' name="publish" value="publish").form-control.form-button-publish Publish
-      div.col-md-4
                 

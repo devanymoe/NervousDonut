@@ -16,10 +16,11 @@ block content
               a(href='/users/' + story.username)
                 span= story.username
             div= 'Likes: ' + story.likes 
-            div.imageContainer
-              img(src= story.image_1).image
-            div.imageContainer
-              img(src= story.image_2).image
-            div.imageContainer
-              img(src= story.image_3).image
+            div.threeImages
+              div.imageContainer
+                img(src= story.image_1).image
+              div.imageContainer
+                img(src= story.image_2).image
+              div.imageContainer
+                img(src= story.image_3).image
             div.storyBody= story.text
