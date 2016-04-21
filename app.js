@@ -29,8 +29,13 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(user, done) {
   knex('users').first().where('id', user.id)
-    .then(function (user) {
-      done(null, user);
+    .then(function (existingUser) {
+      if (!existingUser) {
+        done(null, user);
+      }
+      else {
+        done(null, existingUser);
+      }
     })
     .catch(function (err) {
       done(err);
