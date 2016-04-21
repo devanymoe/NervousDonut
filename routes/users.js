@@ -10,10 +10,10 @@ function Stories(){
 }
 /* GET users listing. */
 
-router.get('/allusers', function(req, res, next) {
-  Users().select().orderBy('username', 'asc').then(function(user) {
+router.get('/', function(req, res, next) {
+  Users().select().orderBy('username', 'asc').then(function(allUsers) {
     res.render('users/index', {
-      allUsers: user
+      allUsers: allUsers
     });
   });
 })
