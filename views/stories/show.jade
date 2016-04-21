@@ -26,5 +26,9 @@ block content
             div.imageContainer(style="background-image: url('" + story.image_3 + "')")
           div= story.text
           div
-            form(id="likeForm", method="post", action="/stories/" + story.id + "/like")
-              button#likeButton(type='submit') like
+            div.row
+              div.col-md-4
+                form(id="likeForm", method="post", action="/stories/" + story.id + "/like")
+                  button#likeButton(type='submit').form-control.form-button-publish Like
+              div.col-md-8
+          div.spacer

@@ -30,6 +30,12 @@ block content
                 span= 'By: '
                 a(href='/users/' + thisUser.username)
                   span= thisUser.username
+              div.detail
+                span= 'Status: '
+                if story.published === true
+                  span= 'Published'
+                else
+                  span= 'Saved as Draft'
               div.detail= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
               if story.created_at.toString() !== story.updated_at.toString()
                 div.detail= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")

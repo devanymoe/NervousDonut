@@ -108,6 +108,7 @@ h2 a:hover {
 
 .detail {
   margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .storyContainer .story h2 {
@@ -132,6 +133,14 @@ h2 a:hover {
 
 .viewMoreLink:hover {
   text-decoration: none;
+}
+
+a {
+  color: #4E0000;
+}
+
+a:hover {
+  color: #4E0000;
 }
 
 /* HOMEPAGE STYLES */
@@ -238,6 +247,18 @@ form {
 }
 
 .form-button-publish:hover {
+  background-color: #400000;
+}
+
+.form-button-delete {
+  background-color: #4E0000;
+  color: #fff;
+  border: none;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+.form-button-delete:hover {
   background-color: #400000;
 }
 

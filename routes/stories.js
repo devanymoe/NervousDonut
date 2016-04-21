@@ -125,8 +125,8 @@ router.post('/new/save', checkLoggedIn, function(req, res, next) {
       user_id: req.user.id,
       likes: 0,
       published: false
-    }).then(function(){
-      res.redirect('/stories')
+    }, '*').then(function(newStory){
+      res.redirect('/stories/' + newStory[0].id)
     })
   }
 })
@@ -267,38 +267,11 @@ router.put('/:id/edit/publish', checkLoggedIn, checkAuthor, function(req, res, n
   }
 });
 
-router.put('/:id/delete', checkLoggedIn, checkAuthor, function(req, res, next) {
-  var d = new Date();
-  var isoDate = d.toISOString();
-  var errors = [];
-
-  errors.push(validations.titleIsNotBlank(req.body.title));
-  errors.push(validations.storyIsNotBlank(req.body.text));
-
-  for(var i = 0; i < errors.length; i++) {
-    if(errors[i] === '') {
-      errors.splice(i, 1);
-      i--;
-    }
-  }
-
-  if (errors.length) {
-    Stories().first().where('id', req.params.id).then(function(story){
-      res.render('stories/edit', {
-        story: story,
-        title: req.body.title,
-        text: req.body.text,
-        message: errors
-      });
-    })
-    return;
-  }
-  else {
-    Stories().where('id', req.params.id).del().then(function(result) {
-        res.redirect('/stories');
-      });
-    }
+router.post('/:id/delete', checkLoggedIn, checkAuthor, function(req, res, next) {
+  Stories().where('id', req.params.id).del().then(function(result) {
+    res.redirect('/users/' + req.user.username);
   });
+});
 
 
 router.get('/:id', function(req, res, next) {
@@ -330,9 +303,12 @@ router.get('/:id/edit', checkLoggedIn, checkAuthor, function(req, res, next) {
 
 router.get('/:id/delete', checkLoggedIn, checkAuthor, function(req, res, next) {
   Stories().first().where('id', req.params.id).then(function(story) {
-    res.render('stories/delete', {
-      story: story
-    })
+    Users().first('username', 'id').where('id', story.user_id).then(function(thisUser) {
+      res.render('stories/delete', {
+        story: story,
+        thisUser: thisUser
+      });
+    });
   });
 });
 
