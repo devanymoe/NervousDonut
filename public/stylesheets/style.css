@@ -37,26 +37,22 @@ a {
 .hero {
   background-color: #000;
   height: 500px;
-  padding-left: 200px;
-  padding-top: 220px;
   background-image: url('../images/hero.jpg');
 }
 
-.container-fluid {
-  left: 0;
-  right: 0;
-  padding-left: 0px;
-  padding-right: 0px;
+.headlineContainer {
+  margin-top: 46%;
 }
 
 .headline {
   font-size: 40px;
   color: #fff;
+  display: block;
 }
 
 .features {
   text-align: center;
-  margin: 80px 50px 50px 80px;
+  margin: 80px 50px 80px 50px;
 }
 
 .features i {
@@ -71,6 +67,34 @@ a {
   font-size: 18px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.signUp {
+  background-color: #666;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  text-align: center;
+  color: #fff;
+  font-size: 18px;
+}
+
+.signUp h2 {
+  color: #fff;
+}
+
+.signUp a:hover {
+  text-decoration: none;
+}
+
+.signUpButton {
+  background-color: #590d0d;
+  color: #fff;
+  border: none;
+  margin-top: 20px;
+}
+
+.signUpButton:hover {
+  background-color: #4e0000;
 }
 
 /* FORM STYLES*/
