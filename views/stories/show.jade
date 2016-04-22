@@ -25,7 +25,7 @@ block content
             div.imageContainer(style="background-image: url('" + story.image_2 + "')")
             div.imageContainer(style="background-image: url('" + story.image_3 + "')")
           div= story.text
-          if user
+          if user && story.published === true
             div
               div.row
                 div.col-md-4
