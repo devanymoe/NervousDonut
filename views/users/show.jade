@@ -33,9 +33,9 @@ block content
               div.detail
                 span= 'Status: '
                 if story.published === true
-                  span= 'Published'
+                  span.published= 'Published'
                 else
-                  span= 'Saved as Draft'
+                  span.saved= 'Saved as Draft'
               div.detail= 'Written: ' + moment(story.created_at).format("MM/DD/YYYY")
               if story.created_at.toString() !== story.updated_at.toString()
                 div.detail= 'Updated: ' + moment(story.created_at).format("MM/DD/YYYY")

@@ -143,6 +143,14 @@ a:hover {
   color: #4E0000;
 }
 
+.published {
+  color: #5F9D71;
+}
+
+.saved {
+  color: #DF943D;
+}
+
 /* HOMEPAGE STYLES */
 
 .hero {
