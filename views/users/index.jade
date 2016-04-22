@@ -18,7 +18,10 @@ block content
                     td
                       a(href='/users/' + thisUser.username)= thisUser.username
                       br
-                      p.total= thisUser.size + ' published stories'
+                      if thisUser.stories.length === 1  
+                        p.total= thisUser.size + ' published story'
+                      else
+                        p.total= thisUser.size + ' published stories'
                     td
                       if thisUser.stories.length
                         for story in thisUser.recentStories
