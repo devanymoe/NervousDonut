@@ -215,7 +215,7 @@ router.put('/:id/edit/save', checkLoggedIn, checkAuthor, function(req, res, next
         likes: req.body.likes,
         published: false
       }).then(function(){
-        res.redirect('/stories');
+        res.redirect('/stories/' + req.params.id);
       });
     });
   }
@@ -261,7 +261,7 @@ router.put('/:id/edit/publish', checkLoggedIn, checkAuthor, function(req, res, n
         likes: req.body.likes,
         published: true
       }).then(function(){
-        res.redirect('/stories');
+        res.redirect('/stories/' + req.params.id);
       });
     });
   }
